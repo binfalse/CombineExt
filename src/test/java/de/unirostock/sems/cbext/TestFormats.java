@@ -74,6 +74,7 @@ public class TestFormats
 		checkFormat (new File ("test/aguda_b_1999.cellml.wrong.ext"), "http://purl.org/NET/mediatypes/application/xml", "http://purl.org/NET/mediatypes/application/octet-stream", "http://purl.org/NET/mediatypes/application/xml");
 	}
 	
+	
 	private static void checkFormat (File f, String expectedGuess, String expectedExt, String expectedMime)
 	{
 		try
