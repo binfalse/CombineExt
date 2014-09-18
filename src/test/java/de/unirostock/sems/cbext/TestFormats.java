@@ -4,38 +4,16 @@
 package de.unirostock.sems.cbext;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.io.DataInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
-import javax.xml.transform.TransformerException;
-
-import org.jdom2.Element;
-import org.jdom2.JDOMException;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
-
-import de.binfalse.bflog.LOGGER;
-import de.unirostock.sems.cbarchive.meta.DefaultMetaDataObject;
-import de.unirostock.sems.cbarchive.meta.MetaDataObject;
-import de.unirostock.sems.cbarchive.meta.OmexMetaDataObject;
-import de.unirostock.sems.cbarchive.meta.omex.VCard;
-import de.unirostock.sems.cbarchive.meta.omex.OmexDescription;;
 
 
 /**
