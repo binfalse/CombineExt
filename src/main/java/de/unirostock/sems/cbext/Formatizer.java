@@ -6,8 +6,8 @@ package de.unirostock.sems.cbext;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.util.Properties;
 
@@ -15,7 +15,7 @@ import de.binfalse.bflog.LOGGER;
 
 
 /**
- * The Class Formatizer to generate formats urls.
+ * The Class Formatizer to generate formats URIs.
  *
  * @author Martin Scharm
  */
@@ -28,15 +28,15 @@ public class Formatizer
 	private static Properties		ext2format			= new Properties ();
 	static
 	{
-		String defaultUrl = "http://purl.org/NET/mediatypes/application/octet-stream";
+		String defaultUri = "http://purl.org/NET/mediatypes/application/octet-stream";
 		try
 		{
-			GENERIC_UNKNOWN = new URL (defaultUrl);
+			GENERIC_UNKNOWN = new URI (defaultUri);
 		}
-		catch (MalformedURLException e)
+		catch (URISyntaxException e)
 		{
 			e.printStackTrace ();
-			LOGGER.error (e, "error generating generic default url: ", defaultUrl);
+			LOGGER.error (e, "error generating generic default uri: ", defaultUri);
 		}
 		try
 		{
@@ -52,8 +52,8 @@ public class Formatizer
 		}
 	}
 	
-	/** The generic unknown format url. */
-	public static URL GENERIC_UNKNOWN;
+	/** The generic unknown format URI. */
+	public static URI GENERIC_UNKNOWN;
 	
 	/**
 	 * Guess format given a file.
@@ -61,8 +61,9 @@ public class Formatizer
 	 * @param file the file
 	 * @return the format
 	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws URISyntaxException 
 	 */
-	public static URL guessFormat (File file) throws IOException
+	public static URI guessFormat (File file) throws IOException, URISyntaxException
 	{
 		if (!file.isFile ())
 			return null;
@@ -99,14 +100,14 @@ public class Formatizer
 	 *
 	 * @param mime the mime type
 	 * @return the format
-	 * @throws MalformedURLException the malformed url exception
+	 * @throws URISyntaxException 
 	 */
-	public static URL getFormatFromMime (String mime) throws MalformedURLException
+	public static URI getFormatFromMime (String mime) throws URISyntaxException
 	{
 		if (mime == null)
 			return GENERIC_UNKNOWN;
-		String url = ext2format.getProperty (mime, null);
-		return url == null ? new URL ("http://purl.org/NET/mediatypes/" + mime) : new URL (url);
+		String uri = ext2format.getProperty (mime, null);
+		return uri == null ? new URI ("http://purl.org/NET/mediatypes/" + mime) : new URI (uri);
 	}
 	
 	
@@ -115,12 +116,12 @@ public class Formatizer
 	 *
 	 * @param extension the file extension
 	 * @return the format
-	 * @throws MalformedURLException the malformed url exception
+	 * @throws URISyntaxException 
 	 */
-	public static URL getFormatFromExtension (String extension) throws MalformedURLException
+	public static URI getFormatFromExtension (String extension) throws URISyntaxException
 	{
-		String url = ext2format.getProperty (extension, null);
-		return url == null ? GENERIC_UNKNOWN : new URL (url);
+		String uri = ext2format.getProperty (extension, null);
+		return uri == null ? GENERIC_UNKNOWN : new URI (uri);
 	}
 	
 	

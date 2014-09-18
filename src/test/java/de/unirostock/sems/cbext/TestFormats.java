@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -101,7 +100,7 @@ public class TestFormats
 	{
 		try
 		{
-			URL format = Formatizer.guessFormat (f);
+			URI format = Formatizer.guessFormat (f);
 			assertEquals ("got wrong format for guessing " + f.getAbsolutePath (), expectedGuess, format.toString ());
 			
 			format = Formatizer.getFormatFromMime (Files.probeContentType (f.toPath ()));
@@ -110,7 +109,7 @@ public class TestFormats
 			format = Formatizer.getFormatFromExtension (f.getName ().substring (f.getName ().lastIndexOf (".") + 1));
 			assertEquals ("got wrong format for ext of " + f.getAbsolutePath (), expectedExt, format.toString ());
 		}
-		catch (IOException e)
+		catch (URISyntaxException | IOException e)
 		{
 			e.printStackTrace ();
 			fail ("couldn't test format for " + f.getAbsolutePath ());
