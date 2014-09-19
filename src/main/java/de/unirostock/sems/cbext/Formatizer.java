@@ -14,13 +14,15 @@ import java.util.Properties;
 import de.binfalse.bflog.LOGGER;
 
 
+
 /**
- * The Class Formatizer to generate formats URIs.
- *
+ * The Class Formatizer to generate format URIs for certain file types.
+ * 
  * @author Martin Scharm
  */
 public class Formatizer
 {
+	
 	/** known formats file. */
 	private static final String	ext2formatFile	= "/ext2format.prop";
 	
@@ -53,17 +55,22 @@ public class Formatizer
 	}
 	
 	/** The generic unknown format URI. */
-	public static URI GENERIC_UNKNOWN;
+	public static URI						GENERIC_UNKNOWN;
+	
 	
 	/**
 	 * Guess format given a file.
-	 *
-	 * @param file the file
+	 * 
+	 * @param file
+	 *          the file
 	 * @return the format
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 * @throws URISyntaxException 
+	 * @throws IOException
+	 *           Signals that an I/O exception has occurred.
+	 * @throws URISyntaxException
 	 */
-	public static URI guessFormat (File file) throws IOException, URISyntaxException
+	public static URI guessFormat (File file)
+		throws IOException,
+			URISyntaxException
 	{
 		if (!file.isFile ())
 			return null;
@@ -78,16 +85,15 @@ public class Formatizer
 			if (dot > 0)
 			{
 				String ext = name.substring (dot + 1);
-				if (ext.equals ("sbml")
-					|| ext.equals ("sedml")
-					|| ext.equals ("sed-ml")
-					|| ext.equals ("sbgn")
-					|| ext.equals ("omex")
-					|| ext.equals ("cellml")
+				if (ext.equals ("sbml") || ext.equals ("sedml")
+					|| ext.equals ("sed-ml") || ext.equals ("sbgn")
+					|| ext.equals ("omex") || ext.equals ("cellml")
 					|| ext.equals ("biopax")
-					/*|| ext.equals ("")
-					|| ext.equals ("")*/
-					)
+				/*
+				  || ext.equals ("")
+				  || ext.equals ("")
+				 */
+				)
 					return getFormatFromExtension (ext);
 			}
 		}
@@ -97,33 +103,35 @@ public class Formatizer
 	
 	/**
 	 * Gets the format given a mime type.
-	 *
-	 * @param mime the mime type
+	 * 
+	 * @param mime
+	 *          the mime type
 	 * @return the format
-	 * @throws URISyntaxException 
+	 * @throws URISyntaxException
 	 */
 	public static URI getFormatFromMime (String mime) throws URISyntaxException
 	{
 		if (mime == null)
 			return GENERIC_UNKNOWN;
 		String uri = ext2format.getProperty (mime, null);
-		return uri == null ? new URI ("http://purl.org/NET/mediatypes/" + mime) : new URI (uri);
+		return uri == null ? new URI ("http://purl.org/NET/mediatypes/" + mime)
+			: new URI (uri);
 	}
 	
 	
 	/**
 	 * Gets the format given a file extension.
-	 *
-	 * @param extension the file extension
+	 * 
+	 * @param extension
+	 *          the file extension
 	 * @return the format
-	 * @throws URISyntaxException 
+	 * @throws URISyntaxException
 	 */
-	public static URI getFormatFromExtension (String extension) throws URISyntaxException
+	public static URI getFormatFromExtension (String extension)
+		throws URISyntaxException
 	{
 		String uri = ext2format.getProperty (extension, null);
 		return uri == null ? GENERIC_UNKNOWN : new URI (uri);
 	}
-	
-	
 	
 }
