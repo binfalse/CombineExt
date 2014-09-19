@@ -62,7 +62,7 @@
 	<macrodef name="assertDirAvailable">
 			<attribute name="dir" />
 			<sequential>
-				<fail message="Please create dir @{dir}">
+				<fail message="Please create dir @{dir} containing the depenencies:${line.separator}${line.separator} &gt;&gt; BFlog (see http://bin.sems.uni-rostock.de/BFLog/)${line.separator}">
 							<condition>
 									<not>
 											<available file="@{dir}" type="dir" />
