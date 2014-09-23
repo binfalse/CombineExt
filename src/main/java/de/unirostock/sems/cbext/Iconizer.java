@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Properties;
 
 import de.binfalse.bflog.LOGGER;
@@ -64,6 +65,24 @@ public class Iconizer
 		if (format == null)
 			return "Blue-unknown.png";
 		return format2icon.getProperty (format.toString (), GENERIC_UNKNOWN);
+	}
+	
+	
+	/**
+	 * Get a URL pointing to an icon in our archive. Can for example be used with
+	 * 
+	 * <pre>
+	 * new ImageIcon (Iconizer.formatToIconUrl (SOME_FORMAT));
+	 * </pre>
+	 * 
+	 * @param format
+	 *          the format
+	 * @return the URL to the icon file
+	 */
+	public static URL formatToIconUrl (URI format)
+	{
+		return Iconizer.class.getResource ("/icons/"
+			+ formatToIcon (format));
 	}
 	
 	

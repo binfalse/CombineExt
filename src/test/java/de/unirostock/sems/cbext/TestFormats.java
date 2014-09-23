@@ -15,6 +15,8 @@ import java.nio.file.Files;
 
 import org.junit.Test;
 
+import de.binfalse.bflog.LOGGER;
+
 
 /**
  * The Class TestWeb.
@@ -23,6 +25,24 @@ import org.junit.Test;
  */
 public class TestFormats
 {
+	
+	/**
+	 * Test some stuff that definitely need to be corrent.
+	 */
+	@Test
+	public void testStatics ()
+	{
+		try
+		{
+			assertEquals ("omex uri is incorrect", new URI ("http://identifiers.org/combine.specifications/omex"), Formatizer.getFormatFromExtension ("omex"));
+		}
+		catch (URISyntaxException e)
+		{
+			e.printStackTrace();
+			LOGGER.error (e, "something went wrong");
+			fail ("error testing statics.");
+		}
+	}
 	
 	/**
 	 */
