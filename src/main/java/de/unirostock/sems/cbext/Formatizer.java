@@ -30,7 +30,7 @@ public class Formatizer
 	private static Properties		ext2format			= new Properties ();
 	static
 	{
-		String defaultUri = "http://purl.org/NET/mediatypes/application/octet-stream";
+		String defaultUri = "http://purl.org/NET/mediatypes/application/x.unknown";
 		try
 		{
 			GENERIC_UNKNOWN = new URI (defaultUri);
@@ -64,18 +64,22 @@ public class Formatizer
 	 * @param file
 	 *          the file
 	 * @return the format
-	 * @throws IOException
-	 *           Signals that an I/O exception has occurred.
-	 * @throws URISyntaxException
 	 */
 	public static URI guessFormat (File file)
-		throws IOException,
-			URISyntaxException
 	{
 		if (!file.isFile ())
 			return null;
 		
-		String mime = Files.probeContentType (file.toPath ());
+		String mime = null;
+		try
+		{
+			mime = Files.probeContentType (file.toPath ());
+		}
+		catch (IOException e)
+		{
+			LOGGER.warn (e, "could not get mime from file " + file);
+		}
+		
 		if (mime != null && mime.equals ("application/xml"))
 		{
 			// test for special identifiers files
@@ -107,15 +111,22 @@ public class Formatizer
 	 * @param mime
 	 *          the mime type
 	 * @return the format
-	 * @throws URISyntaxException
 	 */
-	public static URI getFormatFromMime (String mime) throws URISyntaxException
+	public static URI getFormatFromMime (String mime)
 	{
 		if (mime == null)
 			return GENERIC_UNKNOWN;
 		String uri = ext2format.getProperty (mime, null);
-		return uri == null ? new URI ("http://purl.org/NET/mediatypes/" + mime)
-			: new URI (uri);
+		try
+		{
+			return uri == null ? new URI ("http://purl.org/NET/mediatypes/" + mime)
+				: new URI (uri);
+		}
+		catch (URISyntaxException e)
+		{
+			LOGGER.warn (e, "error generating URI.");
+			return GENERIC_UNKNOWN;
+		}
 	}
 	
 	
@@ -125,13 +136,19 @@ public class Formatizer
 	 * @param extension
 	 *          the file extension
 	 * @return the format
-	 * @throws URISyntaxException
 	 */
 	public static URI getFormatFromExtension (String extension)
-		throws URISyntaxException
 	{
 		String uri = ext2format.getProperty (extension, null);
-		return uri == null ? GENERIC_UNKNOWN : new URI (uri);
+		try
+		{
+			return uri == null ? GENERIC_UNKNOWN : new URI (uri);
+		}
+		catch (URISyntaxException e)
+		{
+			LOGGER.warn (e, "error generating URI.");
+			return GENERIC_UNKNOWN;
+		}
 	}
 	
 }
