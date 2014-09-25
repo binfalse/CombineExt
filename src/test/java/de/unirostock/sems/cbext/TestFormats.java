@@ -91,7 +91,7 @@ public class TestFormats
 	public void testFormatize ()
 	{
 		checkFormat (new File ("test/aguda_b_1999.cellml"), "http://identifiers.org/combine.specifications/cellml", "http://identifiers.org/combine.specifications/cellml", "http://purl.org/NET/mediatypes/application/xml");
-		checkFormat (new File ("test/aguda_b_1999.cellml.wrong.ext"), "http://purl.org/NET/mediatypes/application/xml", "http://purl.org/NET/mediatypes/application/octet-stream", "http://purl.org/NET/mediatypes/application/xml");
+		checkFormat (new File ("test/aguda_b_1999.cellml.wrong.ext"), "http://purl.org/NET/mediatypes/application/xml", "http://purl.org/NET/mediatypes/application/x.unknown", "http://purl.org/NET/mediatypes/application/xml");
 	}
 	
 	
@@ -108,7 +108,7 @@ public class TestFormats
 			format = Formatizer.getFormatFromExtension (f.getName ().substring (f.getName ().lastIndexOf (".") + 1));
 			assertEquals ("got wrong format for ext of " + f.getAbsolutePath (), expectedExt, format.toString ());
 		}
-		catch (URISyntaxException | IOException e)
+		catch (IOException e)
 		{
 			e.printStackTrace ();
 			fail ("couldn't test format for " + f.getAbsolutePath ());
