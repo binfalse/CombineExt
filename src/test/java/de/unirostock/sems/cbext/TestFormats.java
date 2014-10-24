@@ -91,7 +91,7 @@ public class TestFormats
 	public void testFormatize ()
 	{
 		checkFormat (new File ("test/aguda_b_1999.cellml"), "http://identifiers.org/combine.specifications/cellml", "http://identifiers.org/combine.specifications/cellml", "http://purl.org/NET/mediatypes/application/xml");
-		checkFormat (new File ("test/aguda_b_1999.cellml.wrong.ext"), "http://purl.org/NET/mediatypes/application/xml", "http://purl.org/NET/mediatypes/application/x.unknown", "http://purl.org/NET/mediatypes/application/xml");
+		checkFormat (new File ("test/aguda_b_1999.cellml.wrong.ext"), "http://identifiers.org/combine.specifications/cellml", "http://purl.org/NET/mediatypes/application/x.unknown", "http://purl.org/NET/mediatypes/application/xml");
 	}
 	
 	
