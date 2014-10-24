@@ -45,13 +45,13 @@ public class Formatizer
 {
 	
 	/** known formats file. */
-	private static final String	ext2formatFile	= "/ext2format.prop";
+	private static final String	ext2formatFile		= "/ext2format.prop";
 	
 	/** identifiers.org base uri. */
-	private static final String	IDENTIFIERS_BASE = "http://identifiers.org/combine.specifications/";
+	private static final String	IDENTIFIERS_BASE	= "http://identifiers.org/combine.specifications/";
 	
 	/** known formats. */
-	private static Properties		ext2format			= new Properties ();
+	private static Properties		ext2format				= new Properties ();
 	static
 	{
 		String defaultUri = "http://purl.org/NET/mediatypes/application/x.unknown";
@@ -111,24 +111,23 @@ public class Formatizer
 			// try sedml
 			try
 			{
-				SEDMLDocument doc = Libsedml.readDocument(file);
-				doc.validate();
-				if(doc.hasErrors())
+				SEDMLDocument doc = Libsedml.readDocument (file);
+				doc.validate ();
+				if (doc.hasErrors ())
 				{
 					StringBuilder errors = new StringBuilder ();
 					for (SedMLError e : doc.getErrors ())
-					//{
-						//System.out.println (e.getSeverity () + " -- " + SedMLError.ERROR_SEVERITY.ERROR + " -> " + e.getSeverity ().compareTo (SedMLError.ERROR_SEVERITY.ERROR));
 						if (e.getSeverity ().compareTo (SedMLError.ERROR_SEVERITY.ERROR) >= 0)
 							errors.append ("[" + e.getMessage () + "]");
-					//}
 					if (errors.length () > 0)
-						throw new IOException ("error reading sedml file: " + errors.toString ());
+						throw new IOException ("error reading sedml file: "
+							+ errors.toString ());
 				}
 				org.jlibsedml.Version v = doc.getVersion ();
-				return buildUri (IDENTIFIERS_BASE, "sed-ml.level-" + v.getLevel () + ".version-" + v.getVersion ());
+				return buildUri (IDENTIFIERS_BASE, "sed-ml.level-" + v.getLevel ()
+					+ ".version-" + v.getVersion ());
 			}
-			catch (IOException|XMLException|org.jdom.IllegalAddException e)
+			catch (IOException | XMLException | org.jdom.IllegalAddException e)
 			{
 				LOGGER.info (e, "file ", file, " seems to be no sedml file..");
 			}
@@ -137,7 +136,8 @@ public class Formatizer
 			try
 			{
 				SBMLDocument doc = SBMLReader.read (file);
-				return buildUri (IDENTIFIERS_BASE, "sbml.level-" + doc.getLevel () + ".version-" + doc.getVersion ());
+				return buildUri (IDENTIFIERS_BASE, "sbml.level-" + doc.getLevel ()
+					+ ".version-" + doc.getVersion ());
 			}
 			catch (XMLStreamException | IOException | java.util.EmptyStackException e)
 			{
@@ -149,7 +149,8 @@ public class Formatizer
 			{
 				CellMLValidator validator = new CellMLValidator ();
 				if (!validator.validate (file))
-					throw new IOException ("error parsing cellml doc: " + validator.getError ().getMessage ());
+					throw new IOException ("error parsing cellml doc: "
+						+ validator.getError ().getMessage ());
 				return buildUri (IDENTIFIERS_BASE, "cellml");
 			}
 			catch (IOException e)
@@ -160,9 +161,7 @@ public class Formatizer
 			// try sbol
 			try
 			{
-				//SBOLDocument document = 
-				SBOLFactory.read(new FileInputStream(file));
-				//SBOLFactory.validate(document);
+				SBOLFactory.read (new FileInputStream (file));
 				return buildUri (IDENTIFIERS_BASE, "sbol");
 			}
 			catch (IOException | SBOLValidationException e)
@@ -182,7 +181,6 @@ public class Formatizer
 				LOGGER.info (e, "file ", file, " seems to be no sbgn file..");
 			}
 			
-			
 			// ok, parsing failed. let's still try file extensions.
 			String name = file.getName ();
 			int dot = name.lastIndexOf (".");
@@ -194,21 +192,23 @@ public class Formatizer
 					|| ext.equals ("omex") || ext.equals ("cellml")
 					|| ext.equals ("biopax")
 				/*
-				  || ext.equals ("")
-				  || ext.equals ("")
+				 * || ext.equals ("")
+				 * || ext.equals ("")
 				 */
 				)
 					return getFormatFromExtension (ext);
 			}
 		}
-
+		
 		if (mime != null && mime.equals ("application/rdf+xml"))
 		{
 			// try biopax
 			try
 			{
-				BioPAXIOHandler handler = new org.biopax.paxtools.io.SimpleIOHandler (); // auto-detects Level
-				org.biopax.paxtools.model.Model model = handler.convertFromOWL (new FileInputStream(file));
+				BioPAXIOHandler handler = new org.biopax.paxtools.io.SimpleIOHandler (); // auto-detects
+																																									// Level
+				org.biopax.paxtools.model.Model model = handler
+					.convertFromOWL (new FileInputStream (file));
 				
 				return buildUri (IDENTIFIERS_BASE, "biopax");
 			}
@@ -225,8 +225,8 @@ public class Formatizer
 				String ext = name.substring (dot + 1);
 				if (ext.equals ("biopax")
 				/*
-				  || ext.equals ("")
-				  || ext.equals ("")
+				 * || ext.equals ("")
+				 * || ext.equals ("")
 				 */
 				)
 					return getFormatFromExtension (ext);
@@ -283,11 +283,16 @@ public class Formatizer
 		}
 	}
 	
+	
 	/**
-	 * Builds an URI as `start+end` without caring about an exception. Only use if you're sure it's not going to fail. If we cannot produce this URI, we're returning null.
-	 *
-	 * @param pre the start
-	 * @param post the end
+	 * Builds an URI as `start+end` without caring about an exception. Only use if
+	 * you're sure it's not going to fail. If we cannot produce this URI, we're
+	 * returning null.
+	 * 
+	 * @param pre
+	 *          the start
+	 * @param post
+	 *          the end
 	 * @return the URI as start+end
 	 */
 	public static URI buildUri (String pre, String post)
