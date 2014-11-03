@@ -133,9 +133,14 @@
     </build>
     <repositories>
         <repository>
-            <id>sems-maven-repo</id>
+            <id>sems-maven-repo-releases</id>
             <name>SEMS Maven repository</name>
-            <url>http://mvn.sems.uni-rostock.de/</url>
+            <url>http://mvn.sems.uni-rostock.de/releases/</url>
+        </repository>
+        <repository>
+            <id>sems-maven-repo-snapshots</id>
+            <name>SEMS Maven repository</name>
+            <url>http://mvn.sems.uni-rostock.de/snapshots/</url>
         </repository>
     </repositories>
     <profiles>
