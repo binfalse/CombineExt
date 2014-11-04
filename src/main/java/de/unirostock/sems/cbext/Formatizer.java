@@ -139,7 +139,7 @@ public class Formatizer
 				return buildUri (IDENTIFIERS_BASE, "sbml.level-" + doc.getLevel ()
 					+ ".version-" + doc.getVersion ());
 			}
-			catch (XMLStreamException | IOException | java.util.EmptyStackException e)
+			catch (Exception e)
 			{
 				LOGGER.info (e, "file ", file, " seems to be no sbml file..");
 			}
