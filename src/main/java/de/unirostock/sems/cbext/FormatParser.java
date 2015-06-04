@@ -3,6 +3,12 @@ package de.unirostock.sems.cbext;
 import java.io.File;
 import java.net.URI;
 
+/**
+ * Interface for extending the parsable formats.
+ * 
+ * @author martin peters
+ *
+ */
 public interface FormatParser {
 	
 	/**
