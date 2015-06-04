@@ -15,7 +15,7 @@ public interface FormatParser {
 	 * Defines the priority of this format parser.
 	 * The higher the priority, the sooner this parser gets called. <br>
 	 * 
-	 * Should not be negative. Default format parser have priority around 100.
+	 * Should not be negative. Default format parser have a priority around 100.
 	 * 
 	 * @return an integer > 0
 	 */
@@ -27,7 +27,7 @@ public interface FormatParser {
 	 * 
 	 * @param file Path to the file
 	 * @param mimeType MIME type for quick evaluation.
-	 * @return A formate URL or null.
+	 * @return A format URI or null.
 	 */
 	public URI checkFormat(File file, String mimeType);
 	
