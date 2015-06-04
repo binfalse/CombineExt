@@ -13,7 +13,6 @@ import java.nio.file.Files;
 import java.util.Properties;
 
 import javax.xml.bind.JAXBException;
-import javax.xml.stream.XMLStreamException;
 
 import org.biopax.paxtools.io.BioPAXIOHandler;
 import org.biopax.paxtools.util.BioPaxIOException;
@@ -22,17 +21,14 @@ import org.jlibsedml.SEDMLDocument;
 import org.jlibsedml.SedMLError;
 import org.jlibsedml.XMLException;
 import org.sbgn.SbgnUtil;
-import org.sbgn.bindings.Sbgn;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLReader;
-import org.sbolstandard.core.SBOLDocument;
 import org.sbolstandard.core.SBOLFactory;
 import org.sbolstandard.core.SBOLValidationException;
 import org.xml.sax.SAXException;
 
 import de.binfalse.bflog.LOGGER;
 import de.unirostock.sems.bives.cellml.algorithm.CellMLValidator;
-import de.unirostock.sems.bives.cellml.parser.CellMLDocument;
 
 
 
