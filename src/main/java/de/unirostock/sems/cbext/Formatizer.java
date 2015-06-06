@@ -4,33 +4,18 @@
 package de.unirostock.sems.cbext;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Properties;
 
-import javax.xml.bind.JAXBException;
-
-import org.biopax.paxtools.io.BioPAXIOHandler;
-import org.biopax.paxtools.util.BioPaxIOException;
-import org.jlibsedml.Libsedml;
-import org.jlibsedml.SEDMLDocument;
-import org.jlibsedml.SedMLError;
-import org.jlibsedml.XMLException;
-import org.sbgn.SbgnUtil;
-import org.sbml.jsbml.SBMLDocument;
-import org.sbml.jsbml.SBMLReader;
-import org.sbolstandard.core.SBOLFactory;
-import org.sbolstandard.core.SBOLValidationException;
-import org.xml.sax.SAXException;
-
 import de.binfalse.bflog.LOGGER;
-import de.unirostock.sems.bives.cellml.algorithm.CellMLValidator;
 
 
 
@@ -48,7 +33,10 @@ public class Formatizer
 	/** identifiers.org base uri. */
 	private static final String	IDENTIFIERS_BASE	= "http://identifiers.org/combine.specifications/";
 	
-	private static List<FormatParser> formatizerList	= new ArrayList<FormatParser>();
+	/** list of registered format parser */
+	private static List<FormatParser> formatizerList			= new ArrayList<FormatParser>();
+	/** list of registered extension mapper */
+	private static List<ExtensionMapper> extensionMapperList	= new ArrayList<ExtensionMapper>();
 	
 	/** known formats. */
 	private static Properties		ext2format				= new Properties ();
@@ -91,6 +79,20 @@ public class Formatizer
 			throw new IllegalArgumentException("The formatizer is not allowed to be null.");
 		
 		formatizerList.add(parser);
+		Collections.sort(formatizerList, new FormatParserComparator());
+	}
+	
+	/**
+	 * Adds a extension mapper to the formatizer
+	 * 
+	 * @param mapper
+	 */
+	public static void addExtensionMapper(ExtensionMapper mapper) {
+		if( mapper == null )
+			throw new IllegalArgumentException("The mapper is not allowed to be null.");
+		
+		extensionMapperList.add(mapper);
+		Collections.sort(extensionMapperList, new ExtensionMapperComparator());
 	}
 	
 	/**
@@ -115,83 +117,17 @@ public class Formatizer
 			LOGGER.warn (e, "could not get mime from file " + file);
 		}
 		
-		if (mime != null && mime.equals ("application/xml"))
-		{
-			// test for special identifiers files
-			
-			// try sedml
-			try
-			{
-				SEDMLDocument doc = Libsedml.readDocument (file);
-				doc.validate ();
-				if (doc.hasErrors ())
-				{
-					StringBuilder errors = new StringBuilder ();
-					for (SedMLError e : doc.getErrors ())
-						if (e.getSeverity ().compareTo (SedMLError.ERROR_SEVERITY.ERROR) >= 0)
-							errors.append ("[" + e.getMessage () + "]");
-					if (errors.length () > 0)
-						throw new IOException ("error reading sedml file: "
-							+ errors.toString ());
-				}
-				org.jlibsedml.Version v = doc.getVersion ();
-				return buildUri (IDENTIFIERS_BASE, "sed-ml.level-" + v.getLevel ()
-					+ ".version-" + v.getVersion ());
-			}
-			catch (IOException | XMLException | org.jdom.IllegalAddException e)
-			{
-				LOGGER.info (e, "file ", file, " seems to be no sedml file..");
-			}
-			
-			// try sbml
-			try
-			{
-				SBMLDocument doc = SBMLReader.read (file);
-				return buildUri (IDENTIFIERS_BASE, "sbml.level-" + doc.getLevel ()
-					+ ".version-" + doc.getVersion ());
-			}
-			catch (Exception e)
-			{
-				LOGGER.info (e, "file ", file, " seems to be no sbml file..");
-			}
-			
-			// try CellML
-			try
-			{
-				CellMLValidator validator = new CellMLValidator ();
-				if (!validator.validate (file))
-					throw new IOException ("error parsing cellml doc: "
-						+ validator.getError ().getMessage ());
-				return buildUri (IDENTIFIERS_BASE, "cellml");
-			}
-			catch (IOException e)
-			{
-				LOGGER.info (e, "file ", file, " seems to be no cellml file..");
-			}
-			
-			// try sbol
-			try
-			{
-				SBOLFactory.read (new FileInputStream (file));
-				return buildUri (IDENTIFIERS_BASE, "sbol");
-			}
-			catch (IOException | SBOLValidationException e)
-			{
-				LOGGER.info (e, "file ", file, " seems to be no sbol file..");
-			}
-			
-			// try sbgn
-			try
-			{
-				if (!SbgnUtil.isValid (file))
-					throw new IOException ("error parsing sbgn doc");
-				return buildUri (IDENTIFIERS_BASE, "sbgn");
-			}
-			catch (JAXBException | SAXException | IOException e)
-			{
-				LOGGER.info (e, "file ", file, " seems to be no sbgn file..");
-			}
-			
+		URI format = null;
+		for( FormatParser parser : formatizerList ) {
+			if( (format = parser.checkFormat(file, mime)) !=  null)
+				break;
+		}
+		
+		if( format != null ) {
+			// found a format
+			return format;
+		}
+		else {
 			// ok, parsing failed. let's still try file extensions.
 			String name = file.getName ();
 			int dot = name.lastIndexOf (".");
@@ -209,44 +145,13 @@ public class Formatizer
 				)
 					return getFormatFromExtension (ext);
 			}
-		}
-		
-		if (mime != null && mime.equals ("application/rdf+xml"))
-		{
-			// try biopax
-			try
-			{
-				BioPAXIOHandler handler = new org.biopax.paxtools.io.SimpleIOHandler (); // auto-detects
-																																									// Level
-				org.biopax.paxtools.model.Model model = handler
-					.convertFromOWL (new FileInputStream (file));
-				
-				return buildUri (IDENTIFIERS_BASE, "biopax");
-			}
-			catch (IOException | BioPaxIOException e)
-			{
-				LOGGER.info (e, "file ", file, " seems to be no biopax file..");
-			}
 			
-			// ok, parsing failed. let's still try file extensions.
-			String name = file.getName ();
-			int dot = name.lastIndexOf (".");
-			if (dot > 0)
-			{
-				String ext = name.substring (dot + 1);
-				if (ext.equals ("biopax")
-				/*
-				 * || ext.equals ("")
-				 * || ext.equals ("")
-				 */
-				)
-					return getFormatFromExtension (ext);
-			}
 		}
 		
+		// parsing still failed, try to map mime-type
 		return getFormatFromMime (mime);
+		
 	}
-	
 	
 	/**
 	 * Gets the format given a mime type.
@@ -317,5 +222,25 @@ public class Formatizer
 			LOGGER.error ("wasn't able to create URI " + pre + post);
 		}
 		return null;
+	}
+	
+	/**
+	 * Comparator for Format Parser
+	 * 
+	 */
+	private static class FormatParserComparator implements Comparator<FormatParser> {
+		@Override
+		public int compare(FormatParser o1, FormatParser o2) {
+			return o1.getPriority() - o2.getPriority();
+		}
+		
+	}
+	
+	private static class ExtensionMapperComparator implements Comparator<ExtensionMapper> {
+		@Override
+		public int compare(ExtensionMapper o1, ExtensionMapper o2) {
+			return o1.getPriority() - o2.getPriority();
+		}
+		
 	}
 }
