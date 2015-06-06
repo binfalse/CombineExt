@@ -10,6 +10,8 @@ import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import javax.xml.bind.JAXBException;
@@ -46,6 +48,8 @@ public class Formatizer
 	/** identifiers.org base uri. */
 	private static final String	IDENTIFIERS_BASE	= "http://identifiers.org/combine.specifications/";
 	
+	private static List<FormatParser> formatizerList	= new ArrayList<FormatParser>();
+	
 	/** known formats. */
 	private static Properties		ext2format				= new Properties ();
 	static
@@ -77,6 +81,17 @@ public class Formatizer
 	/** The generic unknown format URI. */
 	public static URI						GENERIC_UNKNOWN;
 	
+	/**
+	 * Adds a format parser to the formatizer
+	 *  
+	 * @param formatizer
+	 */
+	public static void addFormaParser(FormatParser parser) {
+		if( parser == null )
+			throw new IllegalArgumentException("The formatizer is not allowed to be null.");
+		
+		formatizerList.add(parser);
+	}
 	
 	/**
 	 * Guess format given a file.

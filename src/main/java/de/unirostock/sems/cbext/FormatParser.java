@@ -2,6 +2,9 @@ package de.unirostock.sems.cbext;
 
 import java.io.File;
 import java.net.URI;
+import java.net.URISyntaxException;
+
+import de.binfalse.bflog.LOGGER;
 
 /**
  * Interface for extending the parsable formats.
@@ -9,7 +12,10 @@ import java.net.URI;
  * @author martin peters
  *
  */
-public interface FormatParser {
+public abstract class FormatParser {
+	
+	/** identifiers.org base uri. */
+	protected static final String	IDENTIFIERS_BASE	= "http://identifiers.org/combine.specifications/";
 	
 	/**
 	 * Defines the priority of this format parser.
@@ -19,7 +25,7 @@ public interface FormatParser {
 	 * 
 	 * @return an integer > 0
 	 */
-	public int getPriority();
+	public abstract int getPriority();
 	
 	/**
 	 * Parses the given file and tries to determine an identifying URL, like purl.org.
@@ -29,6 +35,29 @@ public interface FormatParser {
 	 * @param mimeType MIME type for quick evaluation.
 	 * @return A format URI or null.
 	 */
-	public URI checkFormat(File file, String mimeType);
+	public abstract URI checkFormat(File file, String mimeType);
 	
+	
+	/**
+	 * Builds an URI as `start+end` without caring about an exception. Only use if
+	 * you're sure it's not going to fail. If we cannot produce this URI, we're
+	 * returning null.
+	 * 
+	 * @param pre
+	 *          the start
+	 * @param post
+	 *          the end
+	 * @return the URI as start+end
+	 */
+	protected static URI buildUri (String pre, String post) {
+		try
+		{
+			return new URI (pre + post);
+		}
+		catch (URISyntaxException e)
+		{
+			LOGGER.error ("wasn't able to create URI " + pre + post);
+		}
+		return null;
+	}
 }
