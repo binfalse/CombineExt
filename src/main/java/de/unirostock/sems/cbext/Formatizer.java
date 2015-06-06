@@ -5,7 +5,6 @@ package de.unirostock.sems.cbext;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
@@ -13,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Properties;
 
 import de.binfalse.bflog.LOGGER;
 
@@ -27,19 +25,11 @@ import de.binfalse.bflog.LOGGER;
 public class Formatizer
 {
 	
-	/** known formats file. */
-	private static final String	ext2formatFile		= "/ext2format.prop";
-	
-	/** identifiers.org base uri. */
-	private static final String	IDENTIFIERS_BASE	= "http://identifiers.org/combine.specifications/";
-	
 	/** list of registered format parser */
 	private static List<FormatParser> formatizerList			= new ArrayList<FormatParser>();
 	/** list of registered extension mapper */
 	private static List<ExtensionMapper> extensionMapperList	= new ArrayList<ExtensionMapper>();
 	
-	/** known formats. */
-	private static Properties		ext2format				= new Properties ();
 	static
 	{
 		String defaultUri = "http://purl.org/NET/mediatypes/application/x.unknown";
@@ -51,18 +41,6 @@ public class Formatizer
 		{
 			e.printStackTrace ();
 			LOGGER.error (e, "error generating generic default uri: ", defaultUri);
-		}
-		try
-		{
-			InputStream is = Iconizer.class.getResourceAsStream (ext2formatFile);
-			if (is != null)
-				ext2format.load (is);
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace ();
-			LOGGER.error (e, "error reading known formats: ",
-				Iconizer.class.getResourceAsStream (ext2formatFile));
 		}
 	}
 	
@@ -160,20 +138,26 @@ public class Formatizer
 	 *          the mime type
 	 * @return the format
 	 */
-	public static URI getFormatFromMime (String mime)
-	{
+	public static URI getFormatFromMime (String mime) {
 		if (mime == null)
 			return GENERIC_UNKNOWN;
-		String uri = ext2format.getProperty (mime, null);
-		try
-		{
-			return uri == null ? new URI ("http://purl.org/NET/mediatypes/" + mime)
-				: new URI (uri);
+		
+		URI format = null;
+		for( ExtensionMapper mapper : extensionMapperList ) {
+			if( (format = mapper.getFormatFromMime(mime)) != null )
+				break;
 		}
-		catch (URISyntaxException e)
-		{
-			LOGGER.warn (e, "error generating URI.");
-			return GENERIC_UNKNOWN;
+		
+		if( format != null )
+			return format;
+		else {
+			try {
+				return new URI("http://purl.org/NET/mediatypes/" + mime);
+			}
+			catch (URISyntaxException e) {
+				LOGGER.warn (e, "error generating URI.");
+				return GENERIC_UNKNOWN;
+			}
 		}
 	}
 	
@@ -185,18 +169,20 @@ public class Formatizer
 	 *          the file extension
 	 * @return the format
 	 */
-	public static URI getFormatFromExtension (String extension)
-	{
-		String uri = ext2format.getProperty (extension, null);
-		try
-		{
-			return uri == null ? GENERIC_UNKNOWN : new URI (uri);
-		}
-		catch (URISyntaxException e)
-		{
-			LOGGER.warn (e, "error generating URI.");
+	public static URI getFormatFromExtension (String extension) {
+		if (extension == null)
 			return GENERIC_UNKNOWN;
+		
+		URI format = null;
+		for( ExtensionMapper mapper : extensionMapperList ) {
+			if( (format = mapper.getFromatFromExtension(extension)) != null )
+				break;
 		}
+		
+		if( format != null )
+			return format;
+		else 
+			return GENERIC_UNKNOWN;
 	}
 	
 	
