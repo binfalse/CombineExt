@@ -52,7 +52,7 @@ public class Formatizer
 	 *  
 	 * @param formatizer
 	 */
-	public static void addFormaParser(FormatParser parser) {
+	public static void addFormatParser(FormatParser parser) {
 		if( parser == null )
 			throw new IllegalArgumentException("The formatizer is not allowed to be null.");
 		
@@ -116,10 +116,6 @@ public class Formatizer
 					|| ext.equals ("sed-ml") || ext.equals ("sbgn")
 					|| ext.equals ("omex") || ext.equals ("cellml")
 					|| ext.equals ("biopax")
-				/*
-				 * || ext.equals ("")
-				 * || ext.equals ("")
-				 */
 				)
 					return getFormatFromExtension (ext);
 			}

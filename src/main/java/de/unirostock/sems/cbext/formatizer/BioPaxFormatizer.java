@@ -16,7 +16,7 @@ public class BioPaxFormatizer extends FormatParser {
 	
 	static {
 		// adds format parser to formatizer
-		Formatizer.addFormaParser( new BioPaxFormatizer() );
+		Formatizer.addFormatParser( new BioPaxFormatizer() );
 	}
 	
 	@Override

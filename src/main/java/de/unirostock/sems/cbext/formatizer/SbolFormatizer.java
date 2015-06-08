@@ -16,7 +16,7 @@ public class SbolFormatizer extends FormatParser {
 	
 	static {
 		// adds format parser to formatizer
-		Formatizer.addFormaParser( new SbolFormatizer() );
+		Formatizer.addFormatParser( new SbolFormatizer() );
 	}
 	
 	@Override

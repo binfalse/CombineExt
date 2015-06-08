@@ -14,7 +14,7 @@ public class SbmlFormatizer extends FormatParser {
 	
 	static {
 		// adds format parser to formatizer
-		Formatizer.addFormaParser( new SbmlFormatizer() );
+		Formatizer.addFormatParser( new SbmlFormatizer() );
 	}
 	
 	@Override

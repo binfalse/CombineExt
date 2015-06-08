@@ -13,7 +13,7 @@ public class CellMlFormatizer extends FormatParser {
 	
 	static {
 		// adds format parser to formatizer
-		Formatizer.addFormaParser( new CellMlFormatizer() );
+		Formatizer.addFormatParser( new CellMlFormatizer() );
 	}
 	
 	@Override

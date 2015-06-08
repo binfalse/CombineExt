@@ -17,7 +17,7 @@ public class SedMlFormatizer extends FormatParser {
 	
 	static {
 		// adds format parser to formatizer
-		Formatizer.addFormaParser( new SedMlFormatizer() );
+		Formatizer.addFormatParser( new SedMlFormatizer() );
 	}
 	
 	@Override

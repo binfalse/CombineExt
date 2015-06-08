@@ -17,7 +17,7 @@ public class SbgnFormatizer extends FormatParser {
 	
 	static {
 		// adds format parser to formatizer
-		Formatizer.addFormaParser( new SbgnFormatizer() );
+		Formatizer.addFormatParser( new SbgnFormatizer() );
 	}
 	
 	@Override
