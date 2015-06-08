@@ -10,9 +10,12 @@ import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Properties;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
-import de.binfalse.bflog.LOGGER;
+import de.unirostock.sems.cbext.mapper.DefaultIconMapper;
 
 
 
@@ -22,27 +25,15 @@ import de.binfalse.bflog.LOGGER;
  * @author Martin Scharm
  */
 public class Iconizer
-{
+{	
+	/** known icon mapper */
+	private static List<IconMapper> iconMapperList		= new ArrayList<IconMapper>();
 	
-	/** known formats file. */
-	private static final String	format2iconFile	= "/format2icon.prop";
-	
-	/** known formats. */
-	private static Properties		format2icon			= new Properties ();
-	static
-	{
-		try
-		{
-			InputStream is = Iconizer.class.getResourceAsStream (format2iconFile);
-			if (is != null)
-				format2icon.load (is);
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace ();
-			LOGGER.error (e, "error reading known formats: ",
-				Iconizer.class.getResourceAsStream (format2iconFile));
-		}
+	static {
+		
+		// add default icon mapper
+		iconMapperList.add( new DefaultIconMapper() );
+		Collections.sort(iconMapperList, new IconMapperComparator());
 	}
 	
 	/**
@@ -63,8 +54,15 @@ public class Iconizer
 	public static String formatToIcon (URI format)
 	{
 		if (format == null)
-			return "Blue-unknown.png";
-		return format2icon.getProperty (format.toString (), GENERIC_UNKNOWN);
+			return GENERIC_UNKNOWN;
+		
+		String name = null;
+		for( IconMapper mapper : iconMapperList ) {
+			if( (name = mapper.formatToIconName(format)) != null )
+				break;
+		}
+		
+		return name != null ? name : GENERIC_UNKNOWN;
 	}
 	
 	
@@ -81,8 +79,16 @@ public class Iconizer
 	 */
 	public static URL formatToIconUrl (URI format)
 	{
-		return Iconizer.class.getResource ("/icons/"
-			+ formatToIcon (format));
+		if (format == null)
+			return Iconizer.class.getResource( "/icons/" + GENERIC_UNKNOWN );
+		
+		URL url = null;
+		for( IconMapper mapper : iconMapperList ) {
+			if( (url = mapper.formatToIconUrl(format)) != null )
+				break;
+		}
+		
+		return url != null ? url : Iconizer.class.getResource( "/icons/" + GENERIC_UNKNOWN );
 	}
 	
 	
@@ -96,8 +102,16 @@ public class Iconizer
 	 */
 	public static InputStream formatToIconStream (URI format)
 	{
-		return Iconizer.class.getResourceAsStream ("/icons/"
-			+ formatToIcon (format));
+		if (format == null)
+			return Iconizer.class.getResourceAsStream( "/icons/" + GENERIC_UNKNOWN );
+		
+		InputStream url = null;
+		for( IconMapper mapper : iconMapperList ) {
+			if( (url = mapper.formatToIconStream(format)) != null )
+				break;
+		}
+		
+		return url != null ? url : Iconizer.class.getResourceAsStream( "/icons/" + GENERIC_UNKNOWN );
 	}
 	
 	
@@ -149,5 +163,13 @@ public class Iconizer
 		// go on using expectedFile!
 		System.out.println ("icon can be found in "
 			+ expectedFile.getAbsolutePath ());
+	}
+	
+	private static class IconMapperComparator implements Comparator<IconMapper> {
+		@Override
+		public int compare(IconMapper o1, IconMapper o2) {
+			return o1.getPriority() - o2.getPriority();
+		}
+		
 	}
 }
