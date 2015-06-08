@@ -14,6 +14,12 @@ import java.util.Comparator;
 import java.util.List;
 
 import de.binfalse.bflog.LOGGER;
+import de.unirostock.sems.cbext.formatizer.BioPaxFormatizer;
+import de.unirostock.sems.cbext.formatizer.CellMlFormatizer;
+import de.unirostock.sems.cbext.formatizer.SbgnFormatizer;
+import de.unirostock.sems.cbext.formatizer.SbmlFormatizer;
+import de.unirostock.sems.cbext.formatizer.SbolFormatizer;
+import de.unirostock.sems.cbext.formatizer.SedMlFormatizer;
 
 
 
@@ -42,6 +48,15 @@ public class Formatizer
 			e.printStackTrace ();
 			LOGGER.error (e, "error generating generic default uri: ", defaultUri);
 		}
+		
+		// add default parser
+		formatizerList.add( new BioPaxFormatizer() );
+		formatizerList.add( new CellMlFormatizer() );
+		formatizerList.add( new SbgnFormatizer() );
+		formatizerList.add( new SbmlFormatizer() );
+		formatizerList.add( new SbolFormatizer() );
+		formatizerList.add( new SedMlFormatizer() );
+		Collections.sort(formatizerList, new FormatParserComparator());
 	}
 	
 	/** The generic unknown format URI. */

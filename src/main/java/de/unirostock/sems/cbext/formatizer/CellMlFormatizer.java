@@ -7,14 +7,8 @@ import java.net.URI;
 import de.binfalse.bflog.LOGGER;
 import de.unirostock.sems.bives.cellml.algorithm.CellMLValidator;
 import de.unirostock.sems.cbext.FormatParser;
-import de.unirostock.sems.cbext.Formatizer;
 
 public class CellMlFormatizer extends FormatParser {
-	
-	static {
-		// adds format parser to formatizer
-		Formatizer.addFormatParser( new CellMlFormatizer() );
-	}
 	
 	@Override
 	public int getPriority() {

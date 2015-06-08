@@ -11,14 +11,8 @@ import org.jlibsedml.XMLException;
 
 import de.binfalse.bflog.LOGGER;
 import de.unirostock.sems.cbext.FormatParser;
-import de.unirostock.sems.cbext.Formatizer;
 
 public class SedMlFormatizer extends FormatParser {
-	
-	static {
-		// adds format parser to formatizer
-		Formatizer.addFormatParser( new SedMlFormatizer() );
-	}
 	
 	@Override
 	public int getPriority() {

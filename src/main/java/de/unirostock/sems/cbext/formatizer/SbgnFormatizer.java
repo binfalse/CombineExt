@@ -11,14 +11,8 @@ import org.xml.sax.SAXException;
 
 import de.binfalse.bflog.LOGGER;
 import de.unirostock.sems.cbext.FormatParser;
-import de.unirostock.sems.cbext.Formatizer;
 
 public class SbgnFormatizer extends FormatParser {
-	
-	static {
-		// adds format parser to formatizer
-		Formatizer.addFormatParser( new SbgnFormatizer() );
-	}
 	
 	@Override
 	public int getPriority() {

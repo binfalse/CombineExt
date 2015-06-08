@@ -10,14 +10,8 @@ import org.biopax.paxtools.util.BioPaxIOException;
 
 import de.binfalse.bflog.LOGGER;
 import de.unirostock.sems.cbext.FormatParser;
-import de.unirostock.sems.cbext.Formatizer;
 
 public class BioPaxFormatizer extends FormatParser {
-	
-	static {
-		// adds format parser to formatizer
-		Formatizer.addFormatParser( new BioPaxFormatizer() );
-	}
 	
 	@Override
 	public int getPriority() {

@@ -8,14 +8,8 @@ import org.sbml.jsbml.SBMLReader;
 
 import de.binfalse.bflog.LOGGER;
 import de.unirostock.sems.cbext.FormatParser;
-import de.unirostock.sems.cbext.Formatizer;
 
 public class SbmlFormatizer extends FormatParser {
-	
-	static {
-		// adds format parser to formatizer
-		Formatizer.addFormatParser( new SbmlFormatizer() );
-	}
 	
 	@Override
 	public int getPriority() {

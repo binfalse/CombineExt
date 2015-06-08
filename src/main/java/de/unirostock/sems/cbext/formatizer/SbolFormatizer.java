@@ -10,14 +10,8 @@ import org.sbolstandard.core.SBOLValidationException;
 
 import de.binfalse.bflog.LOGGER;
 import de.unirostock.sems.cbext.FormatParser;
-import de.unirostock.sems.cbext.Formatizer;
 
 public class SbolFormatizer extends FormatParser {
-	
-	static {
-		// adds format parser to formatizer
-		Formatizer.addFormatParser( new SbolFormatizer() );
-	}
 	
 	@Override
 	public int getPriority() {
