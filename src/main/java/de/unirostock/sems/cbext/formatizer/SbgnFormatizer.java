@@ -23,7 +23,7 @@ public class SbgnFormatizer extends FormatParser {
 	public URI checkFormat(File file, String mimeType) {
 		
 		// mime type check
-		if (mimeType == null || mimeType.equals("application/xml") )
+		if (mimeType == null || mimeType.equals("application/xml") == false )
 			return null;
 		
 		try {
