@@ -20,7 +20,7 @@ import de.unirostock.sems.cbext.formatizer.SbgnFormatizer;
 import de.unirostock.sems.cbext.formatizer.SbmlFormatizer;
 import de.unirostock.sems.cbext.formatizer.SbolFormatizer;
 import de.unirostock.sems.cbext.formatizer.SedMlFormatizer;
-
+import de.unirostock.sems.cbext.mapper.DefaultExtensionMapper;
 
 
 /**
@@ -57,6 +57,10 @@ public class Formatizer
 		formatizerList.add( new SbolFormatizer() );
 		formatizerList.add( new SedMlFormatizer() );
 		Collections.sort(formatizerList, new FormatParserComparator());
+		
+		// add default extension mapper
+		extensionMapperList.add( new DefaultExtensionMapper() );
+		Collections.sort(extensionMapperList, new ExtensionMapperComparator());
 	}
 	
 	/** The generic unknown format URI. */
