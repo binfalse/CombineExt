@@ -10,8 +10,6 @@ import java.net.URI;
 
 import org.junit.Test;
 
-import de.binfalse.bflog.LOGGER;
-
 /**
  * @author Martin Scharm
  *
