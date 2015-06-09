@@ -232,7 +232,7 @@ public class Formatizer
 	private static class FormatParserComparator implements Comparator<FormatParser> {
 		@Override
 		public int compare(FormatParser o1, FormatParser o2) {
-			return o1.getPriority() - o2.getPriority();
+			return o2.getPriority() - o1.getPriority();
 		}
 		
 	}
@@ -240,7 +240,7 @@ public class Formatizer
 	private static class ExtensionMapperComparator implements Comparator<ExtensionMapper> {
 		@Override
 		public int compare(ExtensionMapper o1, ExtensionMapper o2) {
-			return o1.getPriority() - o2.getPriority();
+			return o2.getPriority() - o1.getPriority();
 		}
 		
 	}

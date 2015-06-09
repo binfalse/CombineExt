@@ -42,6 +42,18 @@ public class Iconizer
 	 */
 	public static final String	GENERIC_UNKNOWN	= "Blue-unknown.png";
 	
+	/**
+	 * Adds a icon mapper to the Iconizer
+	 *  
+	 * @param mapper
+	 */
+	public static void addIconMapper(IconMapper mapper) {
+		if( mapper == null )
+			throw new IllegalArgumentException("The mapper is not allowed to be null.");
+		
+		iconMapperList.add(mapper);
+		Collections.sort(iconMapperList, new IconMapperComparator());
+	}
 	
 	/**
 	 * Get an icon file name given a format, as it can be found in our jar
@@ -168,7 +180,7 @@ public class Iconizer
 	private static class IconMapperComparator implements Comparator<IconMapper> {
 		@Override
 		public int compare(IconMapper o1, IconMapper o2) {
-			return o1.getPriority() - o2.getPriority();
+			return o2.getPriority() - o1.getPriority();
 		}
 		
 	}
