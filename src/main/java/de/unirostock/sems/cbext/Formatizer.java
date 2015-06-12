@@ -190,7 +190,7 @@ public class Formatizer
 		
 		URI format = null;
 		for( ExtensionMapper mapper : extensionMapperList ) {
-			if( (format = mapper.getFromatFromExtension(extension)) != null )
+			if( (format = mapper.getFormatFromExtension(extension)) != null )
 				break;
 		}
 		

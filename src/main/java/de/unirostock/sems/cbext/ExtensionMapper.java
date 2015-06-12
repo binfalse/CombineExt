@@ -36,5 +36,5 @@ public interface ExtensionMapper {
 	 * @param extension file extension
 	 * @return A format URI or null
 	 */
-	public URI getFromatFromExtension(String extension);
+	public URI getFormatFromExtension(String extension);
 }

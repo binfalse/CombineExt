@@ -54,7 +54,7 @@ public class DefaultExtensionMapper implements ExtensionMapper {
 	}
 
 	@Override
-	public URI getFromatFromExtension(String extension) {
+	public URI getFormatFromExtension(String extension) {
 		// extension and mime are handled equally
 		return getFormatFromMime(extension);
 	}
