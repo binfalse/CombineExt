@@ -78,7 +78,8 @@ public class TestStuff
 		{
 			URI format = new URI ("http://purl.org/NET/mediatypes/application/xml");
 			assertEquals ("unexpected format for .xml", format, dem.getFormatFromExtension ("xml"));
-			assertEquals ("unexpected format for .xml", format, dem.getFormatFromMime ("xml"));
+			assertNull ("unexpected format for .xml", dem.getFormatFromMime ("application/xml"));
+			assertEquals ("unexpected format for .xml", format, Formatizer.getFormatFromMime ("application/xml"));
 		}
 		catch (URISyntaxException e)
 		{
