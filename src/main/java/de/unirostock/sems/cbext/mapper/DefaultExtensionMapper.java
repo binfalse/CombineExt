@@ -8,6 +8,7 @@ import java.util.Properties;
 
 import de.binfalse.bflog.LOGGER;
 import de.unirostock.sems.cbext.ExtensionMapper;
+import de.unirostock.sems.cbext.FormatParser;
 
 /**
  * The Class DefaultExtensionMapper.
@@ -53,24 +54,18 @@ public class DefaultExtensionMapper implements ExtensionMapper {
 		if( mime == null )
 			return null;
 		
-		try {
-			String uriString = ext2Format.getProperty(mime, null);
-			if( uriString != null )
-				return new URI(uriString);
-			else
-				return null;
-
-		} catch (URISyntaxException e) {
-			LOGGER.error(e, "Error generating URI");
+		String uriString = ext2Format.getProperty(mime, null);
+		if( uriString != null )
+			return FormatParser.buildUri (uriString, "");
+		else
 			return null;
-		}
 	}
 
 	/* (non-Javadoc)
 	 * @see de.unirostock.sems.cbext.ExtensionMapper#getFromatFromExtension(java.lang.String)
 	 */
 	@Override
-	public URI getFromatFromExtension(String extension) {
+	public URI getFormatFromExtension(String extension) {
 		// extension and mime are handled equally
 		return getFormatFromMime(extension);
 	}

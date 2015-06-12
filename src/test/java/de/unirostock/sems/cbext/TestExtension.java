@@ -94,7 +94,7 @@ public class TestExtension {
 		}
 
 		@Override
-		public URI getFromatFromExtension(String extension) {
+		public URI getFormatFromExtension(String extension) {
 			if( extension.equals("txt") ) {
 				try {
 					return new URI("http://example.org/spec/text");

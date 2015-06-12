@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
 import java.util.Properties;
+import java.util.Set;
 
 import de.binfalse.bflog.LOGGER;
 import de.unirostock.sems.cbext.IconMapper;
@@ -52,7 +53,7 @@ public class DefaultIconMapper implements IconMapper {
 	 */
 	@Override
 	public boolean hasIcon(URI format) {
-		return format2Icon.contains(format.toString()); 
+		return format2Icon.getProperty (format.toString()) != null; 
 	}
 
 	/* (non-Javadoc)
@@ -85,6 +86,16 @@ public class DefaultIconMapper implements IconMapper {
 	@Override
 	public String formatToIconName(URI format) {
 		return format2Icon.getProperty(format.toString(), null);
+	}
+	
+	/**
+	 * Get a list of formats for that we have an icon.
+	 * 
+	 * @return set of objects that are actually strings
+	 */
+	public Set<Object> getAvailableFormatIcons ()
+	{
+		return format2Icon.keySet ();
 	}
 
 }

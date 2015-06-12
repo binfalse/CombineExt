@@ -50,12 +50,12 @@ public class Formatizer
 		}
 		
 		// add default parser
+		formatizerList.add( new SedMlFormatizer() );
 		formatizerList.add( new BioPaxFormatizer() );
 		formatizerList.add( new CellMlFormatizer() );
 		formatizerList.add( new SbgnFormatizer() );
 		formatizerList.add( new SbmlFormatizer() );
 		formatizerList.add( new SbolFormatizer() );
-		formatizerList.add( new SedMlFormatizer() );
 		Collections.sort(formatizerList, new FormatParserComparator());
 		
 		// add default extension mapper
@@ -101,7 +101,7 @@ public class Formatizer
 	 */
 	public static URI guessFormat (File file)
 	{
-		if (!file.isFile ())
+		if (file == null || !file.isFile ())
 			return null;
 		
 		String mime = null;
@@ -112,6 +112,7 @@ public class Formatizer
 		catch (IOException e)
 		{
 			LOGGER.warn (e, "could not get mime from file " + file);
+			return null;
 		}
 		
 		URI format = null;
@@ -131,6 +132,7 @@ public class Formatizer
 			if (dot > 0)
 			{
 				String ext = name.substring (dot + 1);
+				System.out.println (ext);
 				if (ext.equals ("sbml") || ext.equals ("sedml")
 					|| ext.equals ("sed-ml") || ext.equals ("sbgn")
 					|| ext.equals ("omex") || ext.equals ("cellml")
@@ -166,13 +168,7 @@ public class Formatizer
 		if( format != null )
 			return format;
 		else {
-			try {
-				return new URI("http://purl.org/NET/mediatypes/" + mime);
-			}
-			catch (URISyntaxException e) {
-				LOGGER.warn (e, "error generating URI.");
-				return GENERIC_UNKNOWN;
-			}
+			return FormatParser.buildUri ("http://purl.org/NET/mediatypes/", mime, GENERIC_UNKNOWN);
 		}
 	}
 	
@@ -190,7 +186,7 @@ public class Formatizer
 		
 		URI format = null;
 		for( ExtensionMapper mapper : extensionMapperList ) {
-			if( (format = mapper.getFromatFromExtension(extension)) != null )
+			if( (format = mapper.getFormatFromExtension(extension)) != null )
 				break;
 		}
 		
@@ -198,31 +194,6 @@ public class Formatizer
 			return format;
 		else 
 			return GENERIC_UNKNOWN;
-	}
-	
-	
-	/**
-	 * Builds an URI as `start+end` without caring about an exception. Only use if
-	 * you're sure it's not going to fail. If we cannot produce this URI, we're
-	 * returning null.
-	 * 
-	 * @param pre
-	 *          the start
-	 * @param post
-	 *          the end
-	 * @return the URI as start+end
-	 */
-	public static URI buildUri (String pre, String post)
-	{
-		try
-		{
-			return new URI (pre + post);
-		}
-		catch (URISyntaxException e)
-		{
-			LOGGER.error ("wasn't able to create URI " + pre + post);
-		}
-		return null;
 	}
 	
 	/**
