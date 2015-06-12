@@ -26,7 +26,7 @@ public interface IconMapper {
 	 * Returns true, if the given format is available in this mapper.
 	 * 
 	 * @param format
-	 * @return
+	 * @return true, if we have an icon for that format
 	 */
 	public boolean hasIcon(URI format);
 	
@@ -35,7 +35,7 @@ public interface IconMapper {
 	 * If no icon is available <pre>null</pre> is supposed to be returned.
 	 * 
 	 * @param format
-	 * @return
+	 * @return the URL pointing to the icon for that format
 	 */
 	public URL formatToIconUrl(URI format);
 	
@@ -45,7 +45,7 @@ public interface IconMapper {
 	 * If no icon is available <pre>null</pre> is supposed to be returned.
 	 * 
 	 * @param format
-	 * @return
+	 * @return the stream delivering the icon for the format
 	 */
 	public InputStream formatToIconStream(URI format);
 	
@@ -55,7 +55,7 @@ public interface IconMapper {
 	 * If no icon is available <pre>null</pre> is supposed to be returned.
 	 * 
 	 * @param format
-	 * @return
+	 * @return the name of the icon for this format
 	 */
 	public String formatToIconName(URI format);
 	
