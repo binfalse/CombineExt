@@ -41,15 +41,14 @@ public abstract class FormatParser {
 	/**
 	 * Builds an URI as `start+end` without caring about an exception. Only use if
 	 * you're sure it's not going to fail. If we cannot produce this URI, we're
-	 * returning null.
-	 * 
-	 * @param pre
-	 *          the start
-	 * @param post
-	 *          the end
+	 * returning a default.
+	 *
+	 * @param pre the start
+	 * @param post the end
+	 * @param defaultUri the default URI
 	 * @return the URI as start+end
 	 */
-	protected static URI buildUri (String pre, String post) {
+	public static URI buildUri (String pre, String post, URI defaultUri) {
 		try
 		{
 			return new URI (pre + post);
@@ -58,6 +57,23 @@ public abstract class FormatParser {
 		{
 			LOGGER.error ("wasn't able to create URI " + pre + post);
 		}
-		return null;
+		return defaultUri;
+	}
+	
+	
+	/**
+	 * Builds an URI as `start+end` without caring about an exception. Only use if
+	 * you're sure it's not going to fail. If we cannot produce this URI, we're
+	 * returning null.
+	 * 
+	 * @param pre
+	 *          the start
+	 * @param post
+	 *          the end
+	 * @return the URI as start+end
+	 */
+	public static URI buildUri (String pre, String post)
+	{
+		return buildUri (pre, post, null);
 	}
 }

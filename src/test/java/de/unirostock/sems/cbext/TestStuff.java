@@ -159,4 +159,41 @@ public class TestStuff
 		
 	}
 	
+	@Test
+	public void testFormatizer ()
+	{
+		Formatizer formatizr = new Formatizer ();
+		
+		try
+		{
+			Formatizer.addFormatParser (null);
+			fail ("expected to get an exception from a null parser");
+		}
+		catch (IllegalArgumentException e)
+		{
+			// that's ok
+		}
+		
+		try
+		{
+			Formatizer.addExtensionMapper (null);
+			fail ("expected to get an exception from a null mapper");
+		}
+		catch (IllegalArgumentException e)
+		{
+			// that's ok
+		}
+
+		assertNull ("expected null for a null file", Formatizer.guessFormat (null));
+		assertNull ("expected null for a non-file", Formatizer.guessFormat (new File ("non ex ist ing")));
+		assertEquals ("expected cellml format for a cellml file", "http://identifiers.org/combine.specifications/cellml", Formatizer.guessFormat (new File ("test/aguda_b_1999.cellml")).toString ());
+		assertEquals ("expected biopax format for a file with biopax extension", "http://identifiers.org/combine.specifications/biopax", Formatizer.guessFormat (new File ("test/aguda_b_1999-invalid.biopax")).toString ());
+		assertEquals ("expected plaintext format for a plain text file w/o extension", "http://purl.org/NET/mediatypes/text/plain", Formatizer.guessFormat (new File ("test/plaintext")).toString ());
+		
+
+		assertEquals ("expected generic format for null ext", Formatizer.GENERIC_UNKNOWN, Formatizer.getFormatFromExtension (null));
+		assertEquals ("expected generic format for null mime", Formatizer.GENERIC_UNKNOWN, Formatizer.getFormatFromMime (null));
+		
+	}
+	
 }
