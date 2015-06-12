@@ -135,13 +135,13 @@ public class Iconizer
 	 * @throws URISyntaxException
 	 *           the uRI syntax exception
 	 */
-	public static void extractIconExample ()
+	public File extractIconExample ()
 		throws IOException,
 			URISyntaxException
 	{
 		URI format = new URI ("http://identifiers.org/combine.specifications/sbml");
 		
-		String iconName = formatToIcon (format);
+		String iconName = Iconizer.formatToIcon (format);
 		
 		System.out.println ("icon name: " + iconName);
 		
@@ -150,7 +150,7 @@ public class Iconizer
 		if (!expectedFile.exists ())
 		{
 			// extract the file
-			InputStream fin = formatToIconStream (format);
+			InputStream fin = Iconizer.formatToIconStream (format);
 			FileOutputStream fout = new FileOutputStream (expectedFile);
 			
 			byte[] b = new byte[1024];
@@ -175,6 +175,8 @@ public class Iconizer
 		// go on using expectedFile!
 		System.out.println ("icon can be found in "
 			+ expectedFile.getAbsolutePath ());
+		
+		return expectedFile;
 	}
 	
 	private static class IconMapperComparator implements Comparator<IconMapper> {

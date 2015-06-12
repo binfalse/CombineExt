@@ -10,6 +10,9 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Set;
@@ -86,6 +89,74 @@ public class TestStuff
 			e.printStackTrace();
 			fail ("couldn't create URI");
 		}
+	}
+	
+	@Test
+	public void testIconizer ()
+	{
+		Iconizer iconizr = new Iconizer ();
+		try
+		{
+			File tmp = iconizr.extractIconExample ();
+			tmp = iconizr.extractIconExample ();
+			tmp.delete ();
+		}
+		catch (IOException|URISyntaxException e)
+		{
+			e.printStackTrace();
+			fail ("unexpected exception");
+		}
+		
+		try
+		{
+			Iconizer.addIconMapper (null);
+			fail ("expected to get an exception from a null mapper");
+		}
+		catch (IllegalArgumentException e)
+		{
+			// that's ok
+		}
+		
+		// test empty icon
+		InputStream fin = Iconizer.formatToIconStream (null);
+    byte[] bytes = new byte[1024];
+    int noOfBytes = 0, b = 0;
+
+    try
+		{
+			while( (b = fin.read(bytes)) != -1 )
+			{
+				noOfBytes += b;
+			}
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+			fail ("failed to read generic icon");
+		}
+    assertEquals ("generic icon has unexpected size", 1487, noOfBytes);
+    
+    
+		// test icon for unknown uri
+		fin = Iconizer.formatToIconStream (FormatParser.buildUri ("http://", "binfalse.de"));
+    bytes = new byte[1024];
+    noOfBytes = 0; b = 0;
+
+    try
+		{
+			while( (b = fin.read(bytes)) != -1 )
+			{
+				noOfBytes += b;
+			}
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+			fail ("failed to read generic icon");
+		}
+    assertEquals ("generic icon has unexpected size", 1487, noOfBytes);
+		
+		
 	}
 	
 }
