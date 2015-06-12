@@ -126,6 +126,36 @@ public class TestFormats
 			"http://purl.org/NET/mediatypes/application/xml");
 		
 		checkFormat (
+			new File ("test/BIOMD0000000459-SEDML.xml"),
+			"http://identifiers.org/combine.specifications/sed-ml.level-1.version-1",
+			"http://purl.org/NET/mediatypes/application/xml",
+			"http://purl.org/NET/mediatypes/application/xml");
+		
+		checkFormat (
+			new File ("test/guess-biopax-paxtools-core-src-main-resources-org-biopax-paxtools-model-biopax-level3.owl"),
+			"http://identifiers.org/combine.specifications/biopax",
+			"http://purl.org/NET/mediatypes/application/x.unknown",
+			"http://purl.org/NET/mediatypes/application/rdf+xml");
+		
+		checkFormat (
+			new File ("test/guess-SBOLj-examples-data-BBa_I0462.xml"),
+			"http://identifiers.org/combine.specifications/sbol",
+			"http://purl.org/NET/mediatypes/application/xml",
+			"http://purl.org/NET/mediatypes/application/xml");
+		
+		checkFormat (
+			new File ("test/some.xml"),
+			"http://purl.org/NET/mediatypes/application/xml",
+			"http://purl.org/NET/mediatypes/application/xml",
+			"http://purl.org/NET/mediatypes/application/xml");
+		
+		checkFormat (
+			new File ("test/some.rdf"),
+			"http://purl.org/NET/mediatypes/application/rdf+xml",
+			"http://purl.org/NET/mediatypes/application/x.unknown",
+			"http://purl.org/NET/mediatypes/application/rdf+xml");
+		
+		checkFormat (
 			new File ("test/plain.text"),
 			"http://purl.org/NET/mediatypes/text/plain",
 			"http://purl.org/NET/mediatypes/application/x.unknown",

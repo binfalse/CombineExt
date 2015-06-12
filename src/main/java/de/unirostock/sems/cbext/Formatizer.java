@@ -50,12 +50,12 @@ public class Formatizer
 		}
 		
 		// add default parser
+		formatizerList.add( new SedMlFormatizer() );
 		formatizerList.add( new BioPaxFormatizer() );
 		formatizerList.add( new CellMlFormatizer() );
 		formatizerList.add( new SbgnFormatizer() );
 		formatizerList.add( new SbmlFormatizer() );
 		formatizerList.add( new SbolFormatizer() );
-		formatizerList.add( new SedMlFormatizer() );
 		Collections.sort(formatizerList, new FormatParserComparator());
 		
 		// add default extension mapper
