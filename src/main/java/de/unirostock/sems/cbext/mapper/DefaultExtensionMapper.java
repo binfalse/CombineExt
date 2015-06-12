@@ -9,13 +9,20 @@ import java.util.Properties;
 import de.binfalse.bflog.LOGGER;
 import de.unirostock.sems.cbext.ExtensionMapper;
 
+/**
+ * The Class DefaultExtensionMapper.
+ */
 public class DefaultExtensionMapper implements ExtensionMapper {
 	
 	/** known formats file. */
 	private static final String	EXT2FORMAT_NAME		= "/ext2format.prop";
 	
+	/** The ext2 format. */
 	private Properties ext2Format					= new Properties();
 	
+	/**
+	 * Instantiates a new default extension mapper.
+	 */
 	public DefaultExtensionMapper() {
 		
 		try {
@@ -29,11 +36,17 @@ public class DefaultExtensionMapper implements ExtensionMapper {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see de.unirostock.sems.cbext.ExtensionMapper#getPriority()
+	 */
 	@Override
 	public int getPriority() {
 		return 100;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.unirostock.sems.cbext.ExtensionMapper#getFormatFromMime(java.lang.String)
+	 */
 	@Override
 	public URI getFormatFromMime(String mime) {
 		
@@ -53,6 +66,9 @@ public class DefaultExtensionMapper implements ExtensionMapper {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see de.unirostock.sems.cbext.ExtensionMapper#getFromatFromExtension(java.lang.String)
+	 */
 	@Override
 	public URI getFromatFromExtension(String extension) {
 		// extension and mime are handled equally

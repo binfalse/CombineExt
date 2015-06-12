@@ -9,13 +9,22 @@ import org.sbml.jsbml.SBMLReader;
 import de.binfalse.bflog.LOGGER;
 import de.unirostock.sems.cbext.FormatParser;
 
+/**
+ * The Class SbmlFormatizer to recognize sbml files.
+ */
 public class SbmlFormatizer extends FormatParser {
 	
+	/* (non-Javadoc)
+	 * @see de.unirostock.sems.cbext.FormatParser#getPriority()
+	 */
 	@Override
 	public int getPriority() {
 		return 100;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.unirostock.sems.cbext.FormatParser#checkFormat(java.io.File, java.lang.String)
+	 */
 	@Override
 	public URI checkFormat(File file, String mimeType) {
 		
