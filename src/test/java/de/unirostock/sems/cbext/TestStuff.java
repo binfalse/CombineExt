@@ -16,6 +16,7 @@ import java.util.Set;
 
 import org.junit.Test;
 
+import de.unirostock.sems.cbext.mapper.DefaultExtensionMapper;
 import de.unirostock.sems.cbext.mapper.DefaultIconMapper;
 
 /**
@@ -61,6 +62,28 @@ public class TestStuff
 				e.printStackTrace();
 				fail ("there is apparently a wrong format url in the icon mapper list?");
 			}
+		}
+	}
+	
+	@Test
+	public void testDefaultExtensionMapper ()
+	{
+		DefaultExtensionMapper dem = new DefaultExtensionMapper ();
+		assertEquals ("expected a priority of 100 for the DefaultExtensionMapper", 100, dem.getPriority ());
+		
+		assertNull ("didn't expect format for null", dem.getFormatFromMime (null));
+		
+		
+		try
+		{
+			URI format = new URI ("http://purl.org/NET/mediatypes/application/xml");
+			assertEquals ("unexpected format for .xml", format, dem.getFromatFromExtension ("xml"));
+			assertEquals ("unexpected format for .xml", format, dem.getFormatFromMime ("xml"));
+		}
+		catch (URISyntaxException e)
+		{
+			e.printStackTrace();
+			fail ("couldn't create URI");
 		}
 	}
 	
