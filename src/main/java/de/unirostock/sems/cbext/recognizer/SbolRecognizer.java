@@ -87,7 +87,7 @@ public class SbolRecognizer
 	@Override
 	public URI getFormatFromExtension (String extension)
 	{
-		if (extension.equals ("sbol"))
+		if (extension != null && extension.equals ("sbol"))
 			return buildUri (IDENTIFIERS_BASE, "sbol");
 		return null;
 	}

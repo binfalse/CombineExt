@@ -115,7 +115,7 @@ public class SedMlRecognizer
 	@Override
 	public URI getFormatFromExtension (String extension)
 	{
-		if (extension.equals ("sedml"))
+		if (extension != null && extension.equals ("sedml"))
 			return buildUri (IDENTIFIERS_BASE, "sed-ml");
 		return null;
 	}

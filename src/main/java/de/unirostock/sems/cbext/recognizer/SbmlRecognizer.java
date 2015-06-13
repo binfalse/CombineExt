@@ -86,7 +86,7 @@ public class SbmlRecognizer
 	@Override
 	public URI getFormatFromExtension (String extension)
 	{
-		if (extension.equals ("sbml"))
+		if (extension != null && extension != null && extension.equals ("sbml"))
 			return buildUri (IDENTIFIERS_BASE, "sbml");
 		return null;
 	}

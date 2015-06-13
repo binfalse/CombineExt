@@ -105,7 +105,7 @@ public class BioPaxRecognizer
 	@Override
 	public URI getFormatFromExtension (String extension)
 	{
-		if (extension.equals ("biopax"))
+		if (extension != null && extension.equals ("biopax"))
 			return buildUri (IDENTIFIERS_BASE, "biopax");
 		return null;
 	}

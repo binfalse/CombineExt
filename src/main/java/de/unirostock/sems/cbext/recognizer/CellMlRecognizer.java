@@ -101,7 +101,7 @@ public class CellMlRecognizer
 	@Override
 	public URI getFormatFromExtension (String extension)
 	{
-		if (extension.equals ("cellml"))
+		if (extension != null && extension.equals ("cellml"))
 			return buildUri (IDENTIFIERS_BASE, "cellml");
 		return null;
 	}

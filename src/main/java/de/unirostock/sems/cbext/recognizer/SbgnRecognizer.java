@@ -103,7 +103,7 @@ public class SbgnRecognizer
 	@Override
 	public URI getFormatFromExtension (String extension)
 	{
-		if (extension.equals ("sbgn"))
+		if (extension != null && extension.equals ("sbgn"))
 			return buildUri (IDENTIFIERS_BASE, "sbgn");
 		return null;
 	}
