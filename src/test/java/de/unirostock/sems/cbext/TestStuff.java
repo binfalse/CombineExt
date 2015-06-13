@@ -19,8 +19,8 @@ import java.util.Set;
 
 import org.junit.Test;
 
-import de.unirostock.sems.cbext.mapper.DefaultExtensionMapper;
 import de.unirostock.sems.cbext.mapper.DefaultIconMapper;
+import de.unirostock.sems.cbext.recognizer.DefaultRecognizer;
 
 /**
  * The Class TestStuff.
@@ -36,8 +36,8 @@ public class TestStuff
 	@Test
 	public void testFormatParser ()
 	{
-		assertNotNull ("valid URI shouln't return null", FormatParser.buildUri ("http://", "binfalse.de"));
-		assertNull ("valid URI shouln't return null", FormatParser.buildUri (":", "binfalse.de"));
+		assertNotNull ("valid URI shouln't return null", FormatRecognizer.buildUri ("http://", "binfalse.de"));
+		assertNull ("valid URI shouln't return null", FormatRecognizer.buildUri (":", "binfalse.de"));
 	}
 	
 	/**
@@ -82,7 +82,7 @@ public class TestStuff
 	@Test
 	public void testDefaultExtensionMapper ()
 	{
-		DefaultExtensionMapper dem = new DefaultExtensionMapper ();
+		DefaultRecognizer dem = new DefaultRecognizer ();
 		assertEquals ("expected a priority of 100 for the DefaultExtensionMapper", 100, dem.getPriority ());
 		
 		assertNull ("didn't expect format for null", dem.getFormatFromMime (null));
@@ -152,7 +152,7 @@ public class TestStuff
     
     
 		// test icon for unknown uri
-		fin = Iconizer.formatToIconStream (FormatParser.buildUri ("http://", "binfalse.de"));
+		fin = Iconizer.formatToIconStream (FormatRecognizer.buildUri ("http://", "binfalse.de"));
     bytes = new byte[1024];
     noOfBytes = 0; b = 0;
 
@@ -183,18 +183,8 @@ public class TestStuff
 		
 		try
 		{
-			Formatizer.addFormatParser (null);
+			Formatizer.addFormatRecognizer (null);
 			fail ("expected to get an exception from a null parser");
-		}
-		catch (IllegalArgumentException e)
-		{
-			// that's ok
-		}
-		
-		try
-		{
-			Formatizer.addExtensionMapper (null);
-			fail ("expected to get an exception from a null mapper");
 		}
 		catch (IllegalArgumentException e)
 		{

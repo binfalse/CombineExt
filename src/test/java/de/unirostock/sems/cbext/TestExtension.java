@@ -22,11 +22,11 @@ public class TestExtension {
 	public void testFormatParserExtension() {
 		
 		// high priority, executing before default parser (prio = 100)
-		Formatizer.addFormatParser( new TestFormatParser() );
+		Formatizer.addFormatRecognizer (new TestFormatRecognizer() );
 		
 		File f = new File ("test/BIOMD0000000459.xml");
 		URI format = Formatizer.guessFormat (f);
-		assertEquals ("Does not got dummy format from TestFormatParser", "http://example.org/spec/dummy", format.toString ());
+		assertEquals ("Did not get dummy format from TestFormatParser", "http://example.org/spec/dummy", format.toString ());
 	}
 	
 	/**
@@ -36,10 +36,10 @@ public class TestExtension {
 	public void testExtensionMapper() {
 		
 		// high priority, executing before default extension mapper (prio = 100)
-		Formatizer.addExtensionMapper( new TestExtensionMapper() );
+		Formatizer.addFormatRecognizer( new TestFormatRecognizer() );
 		
 		URI format = Formatizer.getFormatFromExtension("txt");
-		assertEquals("Does not got dummy format for txt extension", "http://example.org/spec/text", format.toString());
+		assertEquals("Did not get dummy format for txt extension", "http://example.org/spec/text", format.toString());
 	}
 	
 	/**
@@ -49,10 +49,107 @@ public class TestExtension {
 	public void testExtensionMapperMime() {
 		
 		// high priority, executing before default extension mapper (prio = 100)
-		Formatizer.addExtensionMapper( new TestExtensionMapper() );
+		Formatizer.addFormatRecognizer( new TestFormatRecognizer() );
 		
 		URI format = Formatizer.getFormatFromMime("text/plain");
-		assertEquals("Does not got dummy format for txt mime type", "http://example.org/spec/text", format.toString());
+		assertEquals("Did not get dummy format for txt mime type", "http://example.org/spec/text", format.toString());
+	}
+	
+	/**
+	 * Test priorities.
+	 */
+	@Test
+	public void testPriorities ()
+	{
+		final URI low = FormatRecognizer.buildUri ("http://", "lower.priority");
+		final URI high = FormatRecognizer.buildUri ("http://", "higher.priority");
+		
+		
+		FormatRecognizer lowRecognizer = new FormatRecognizer () {
+			@Override
+			public int getPriority () {return 200;}
+			@Override
+			public URI getFormatByParsing (File file, String mimeType) {return low;}
+			@Override
+			public URI getFormatFromMime (String mime) {return low;}
+			@Override
+			public URI getFormatFromExtension (String extension) {return low;}
+		};
+		
+		class FormatRecognizerTmp extends FormatRecognizer  {
+			public int priority = 201;
+			@Override
+			public int getPriority () {return priority;}
+			@Override
+			public URI getFormatByParsing (File file, String mimeType) {return high;}
+			@Override
+			public URI getFormatFromMime (String mime) {return high;}
+			@Override
+			public URI getFormatFromExtension (String extension) {return high;}
+		};
+		FormatRecognizerTmp highRecognizer = new FormatRecognizerTmp ();
+		File f = new File ("test/BIOMD0000000459.xml");
+
+		Formatizer.removeRecognizers ();
+		Formatizer.addFormatRecognizer (highRecognizer);
+		Formatizer.addFormatRecognizer (lowRecognizer);
+
+		assertEquals("Did not get format of high priority recognizer for mime type",
+			high,
+			Formatizer.getFormatFromMime("who cares"));
+		assertEquals("Did not get format of high priority recognizer for extension",
+			high,
+			Formatizer.getFormatFromExtension ("who cares"));
+		assertEquals("Did not get format of high priority recognizer by guessing",
+			high,
+			Formatizer.guessFormat (f));
+
+		
+		// test again with submitting recognizers in other order
+		Formatizer.removeRecognizers ();
+		Formatizer.addFormatRecognizer (lowRecognizer);
+		Formatizer.addFormatRecognizer (highRecognizer);
+		
+		assertEquals("Did not get format of high priority recognizer for mime type",
+			high,
+			Formatizer.getFormatFromMime("who cares"));
+		assertEquals("Did not get format of high priority recognizer for extension",
+			high,
+			Formatizer.getFormatFromExtension ("who cares"));
+		assertEquals("Did not get format of high priority recognizer by guessing",
+			high,
+			Formatizer.guessFormat (f));
+		
+		
+		// now change priority
+		highRecognizer.priority = 50;
+		
+		// test again, this time it should correctly be incorrect
+		assertEquals("Did not get format of high priority recognizer for mime type",
+			high,
+			Formatizer.getFormatFromMime("who cares"));
+		assertEquals("Did not get format of high priority recognizer for extension",
+			high,
+			Formatizer.getFormatFromExtension ("who cares"));
+		assertEquals("Did not get format of high priority recognizer by guessing",
+			high,
+			Formatizer.guessFormat (f));
+		
+		// now resort the recognizers
+		Formatizer.resortRecognizers ();
+		
+		// test again, this time it should be correct gain
+		assertEquals("Did not get format of low priority recognizer for mime type",
+			low,
+			Formatizer.getFormatFromMime("who cares"));
+		assertEquals("Did not get format of low priority recognizer for extension",
+			low,
+			Formatizer.getFormatFromExtension ("who cares"));
+		assertEquals("Did not get format of low priority recognizer by guessing",
+			low,
+			Formatizer.guessFormat (f));
+		
+		
 	}
 	
 	/**
@@ -67,13 +164,13 @@ public class TestExtension {
 		Iconizer.addIconMapper( new TestIconMapper() );
 		
 		String name = Iconizer.formatToIcon(new URI("http://example.org/spec/dummy"));
-		assertEquals("Does not got dummy icon name for dummy format", "test.png", name);
+		assertEquals("Did not get dummy icon name for dummy format", "test.png", name);
 	}
 	
 	/**
 	 * The Class TestFormatParser.
 	 */
-	public static class TestFormatParser extends FormatParser {
+	public static class TestFormatRecognizer extends FormatRecognizer{
 
 		/* (non-Javadoc)
 		 * @see de.unirostock.sems.cbext.FormatParser#getPriority()
@@ -87,7 +184,7 @@ public class TestExtension {
 		 * @see de.unirostock.sems.cbext.FormatParser#checkFormat(java.io.File, java.lang.String)
 		 */
 		@Override
-		public URI checkFormat(File file, String mimeType) {
+		public URI getFormatByParsing (File file, String mimeType) {
 			// always returns a dummy format
 			try {
 				return new URI("http://example.org/spec/dummy");
@@ -95,21 +192,6 @@ public class TestExtension {
 				e.printStackTrace();
 				return null;
 			}
-		}
-		
-	}
-	
-	/**
-	 * The Class TestExtensionMapper.
-	 */
-	public static class TestExtensionMapper implements ExtensionMapper {
-
-		/* (non-Javadoc)
-		 * @see de.unirostock.sems.cbext.ExtensionMapper#getPriority()
-		 */
-		@Override
-		public int getPriority() {
-			return 900;
 		}
 
 		/* (non-Javadoc)

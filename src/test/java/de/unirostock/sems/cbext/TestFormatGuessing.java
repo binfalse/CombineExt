@@ -4,11 +4,14 @@
 package de.unirostock.sems.cbext;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.io.File;
 import java.net.URI;
 
 import org.junit.Test;
+
+import de.unirostock.sems.cbext.recognizer.SbmlRecognizer;
 
 /**
  * @author Martin Scharm

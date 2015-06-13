@@ -14,28 +14,37 @@ import java.util.Comparator;
 import java.util.List;
 
 import de.binfalse.bflog.LOGGER;
-import de.unirostock.sems.cbext.formatizer.BioPaxFormatizer;
-import de.unirostock.sems.cbext.formatizer.CellMlFormatizer;
-import de.unirostock.sems.cbext.formatizer.SbgnFormatizer;
-import de.unirostock.sems.cbext.formatizer.SbmlFormatizer;
-import de.unirostock.sems.cbext.formatizer.SbolFormatizer;
-import de.unirostock.sems.cbext.formatizer.SedMlFormatizer;
-import de.unirostock.sems.cbext.mapper.DefaultExtensionMapper;
+import de.unirostock.sems.cbext.recognizer.BioPaxRecognizer;
+import de.unirostock.sems.cbext.recognizer.CellMlRecognizer;
+import de.unirostock.sems.cbext.recognizer.DefaultRecognizer;
+import de.unirostock.sems.cbext.recognizer.SbgnRecognizer;
+import de.unirostock.sems.cbext.recognizer.SbmlRecognizer;
+import de.unirostock.sems.cbext.recognizer.SbolRecognizer;
+import de.unirostock.sems.cbext.recognizer.SedMlRecognizer;
 
 
 /**
- * The Class Formatizer to generate format URIs for certain file types.
+ * The Class Formatizer to generate format URIs for certain files.
+ * 
+ * This class hosts a bunch of format recognizers (see {@link FormatRecognizer}) which are able to recognize files and provide format URIs.
+ * By default we are able to recognize SED-ML, BioPax, CellML, SBML, and SBOL.
+ * You can extend the default list by passing further FormatRecognizers to {@link addFormatRecognizer (de.unirostock.sems.cbext.FormatRecognizer)}.
+ * 
+ * To retrieve the format of a certain file you might
+ * <ul>
+ * <li>pass the file to {@link guessFormat (java.io.File)}</li>
+ * <li>pass its mime type to {@link getFormatFromMime (java.lang.String)}</li>
+ * <li>pass its extension to {@link getFormatFromExtension (java.lang.String)}</li>
+ * </ul>
+ * The result will be a link to, e.g., purl.org or identifiers.org.
  * 
  * @author Martin Scharm
  */
 public class Formatizer
 {
 	
-	/** list of registered format parser. */
-	private static List<FormatParser> formatizerList			= new ArrayList<FormatParser>();
-	
-	/** list of registered extension mapper. */
-	private static List<ExtensionMapper> extensionMapperList	= new ArrayList<ExtensionMapper>();
+	/** list of registered format recognizers. */
+	private static List<FormatRecognizer> recognizerList			= new ArrayList<FormatRecognizer>();
 	
 	static
 	{
@@ -50,47 +59,59 @@ public class Formatizer
 			LOGGER.error (e, "error generating generic default uri: ", defaultUri);
 		}
 		
-		// add default parser
-		formatizerList.add( new SedMlFormatizer() );
-		formatizerList.add( new BioPaxFormatizer() );
-		formatizerList.add( new CellMlFormatizer() );
-		formatizerList.add( new SbgnFormatizer() );
-		formatizerList.add( new SbmlFormatizer() );
-		formatizerList.add( new SbolFormatizer() );
-		Collections.sort(formatizerList, new FormatParserComparator());
-		
-		// add default extension mapper
-		extensionMapperList.add( new DefaultExtensionMapper() );
-		Collections.sort(extensionMapperList, new ExtensionMapperComparator());
+		// add default recognizers
+		addDefaultRecognizers ();
 	}
 	
 	/** The generic unknown format URI. */
 	public static URI						GENERIC_UNKNOWN;
 	
 	/**
-	 * Adds a format parser to the formatizer.
+	 * Adds another recognizer to the formatizer.
 	 *
-	 * @param parser the parser that considers more formats
+	 * @param recognizer the recognizer that considers more formats
 	 */
-	public static void addFormatParser(FormatParser parser) {
-		if( parser == null )
+	public static void addFormatRecognizer (FormatRecognizer recognizer) {
+		if( recognizer == null )
 			throw new IllegalArgumentException("The formatizer is not allowed to be null.");
 		
-		formatizerList.add(parser);
-		Collections.sort(formatizerList, new FormatParserComparator());
+		recognizerList.add(recognizer);
+		resortRecognizers ();
 	}
 	
 	/**
-	 * Adds a extension mapper to the formatizer.
-	 *
-	 * @param mapper the mapper
+	 * Add all default recognizers to the list of recognizers.
+	 * 
+	 * Currently, we have recognizers for SED-ML, BioPax, CellML, SBGN, SBML, SBOL, as well as a default recognizer.
 	 */
-	public static void addExtensionMapper(ExtensionMapper mapper) {
-		if( mapper == null )
-			throw new IllegalArgumentException("The mapper is not allowed to be null.");
-		
-		extensionMapperList.add(mapper);
-		Collections.sort(extensionMapperList, new ExtensionMapperComparator());
+	public static void addDefaultRecognizers ()
+	{
+		recognizerList.add( new SedMlRecognizer() );
+		recognizerList.add( new BioPaxRecognizer() );
+		recognizerList.add( new CellMlRecognizer() );
+		recognizerList.add( new SbgnRecognizer() );
+		recognizerList.add( new SbmlRecognizer() );
+		recognizerList.add( new SbolRecognizer() );
+		recognizerList.add( new DefaultRecognizer() );
+		resortRecognizers ();
+	}
+	
+	/**
+	 * Remove all recognizers that we know so far.
+	 */
+	public static void removeRecognizers ()
+	{
+		recognizerList.clear ();
+	}
+	
+	/**
+	 * Resort known format recognizers.
+	 * 
+	 * Must be called if the priorities of recognizers are modified.
+	 */
+	public static void resortRecognizers ()
+	{
+		Collections.sort(recognizerList, new RecognizerComparator());
 	}
 	
 	/**
@@ -117,8 +138,8 @@ public class Formatizer
 		}
 		
 		URI format = null;
-		for( FormatParser parser : formatizerList ) {
-			if( (format = parser.checkFormat(file, mime)) !=  null)
+		for( FormatRecognizer recognizer: recognizerList ) {
+			if( (format = recognizer.getFormatByParsing (file, mime)) !=  null)
 				break;
 		}
 		
@@ -161,15 +182,15 @@ public class Formatizer
 			return GENERIC_UNKNOWN;
 		
 		URI format = null;
-		for( ExtensionMapper mapper : extensionMapperList ) {
-			if( (format = mapper.getFormatFromMime(mime)) != null )
+		for( FormatRecognizer recognizer : recognizerList ) {
+			if( (format = recognizer.getFormatFromMime(mime)) != null )
 				break;
 		}
 		
 		if( format != null )
 			return format;
 		else {
-			return FormatParser.buildUri ("http://purl.org/NET/mediatypes/", mime, GENERIC_UNKNOWN);
+			return FormatRecognizer.buildUri ("http://purl.org/NET/mediatypes/", mime, GENERIC_UNKNOWN);
 		}
 	}
 	
@@ -186,8 +207,8 @@ public class Formatizer
 			return GENERIC_UNKNOWN;
 		
 		URI format = null;
-		for( ExtensionMapper mapper : extensionMapperList ) {
-			if( (format = mapper.getFormatFromExtension(extension)) != null )
+		for( FormatRecognizer recognizer : recognizerList ) {
+			if( (format = recognizer.getFormatFromExtension(extension)) != null )
 				break;
 		}
 		
@@ -198,30 +219,15 @@ public class Formatizer
 	}
 	
 	/**
-	 * Comparator for Format Parsers.
+	 * Comparator for list of Recognizers.
 	 */
-	private static class FormatParserComparator implements Comparator<FormatParser> {
+	private static class RecognizerComparator implements Comparator<FormatRecognizer> {
 		
 		/* (non-Javadoc)
 		 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 		 */
 		@Override
-		public int compare(FormatParser o1, FormatParser o2) {
-			return o2.getPriority() - o1.getPriority();
-		}
-		
-	}
-	
-	/**
-	 * The Class ExtensionMapperComparator to sort the different extension mappers.
-	 */
-	private static class ExtensionMapperComparator implements Comparator<ExtensionMapper> {
-		
-		/* (non-Javadoc)
-		 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
-		 */
-		@Override
-		public int compare(ExtensionMapper o1, ExtensionMapper o2) {
+		public int compare(FormatRecognizer o1, FormatRecognizer o2) {
 			return o2.getPriority() - o1.getPriority();
 		}
 		
