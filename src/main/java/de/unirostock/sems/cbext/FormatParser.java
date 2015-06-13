@@ -19,17 +19,19 @@ public abstract class FormatParser {
 	
 	/**
 	 * Defines the priority of this format parser.
-	 * The higher the priority, the sooner this parser gets called. <br>
 	 * 
-	 * Should not be negative. Default format parser have a priority around 100.
+	 * The higher the priority, the earlier this parser gets called.
+	 * The first parser, which is able to identify a file, determines it's format.
+	 * Priority should not be negative. Default format parser have a priority around 100.
 	 * 
 	 * @return an integer > 0
 	 */
 	public abstract int getPriority();
 	
 	/**
-	 * Parses the given file and tries to determine an identifying URL, like purl.org.
-	 * If this is not possible, null should be returned.
+	 * Parses the given file and tries to determine an identifying URL, such as purl.org or identifiers.org.
+	 * 
+	 * If this parser is not able to understand the file it should return null.
 	 * 
 	 * @param file Path to the file
 	 * @param mimeType MIME type for quick evaluation.

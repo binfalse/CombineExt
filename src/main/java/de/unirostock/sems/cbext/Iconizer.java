@@ -129,11 +129,10 @@ public class Iconizer
 	
 	/**
 	 * Example for extracting an icon. Not to be used.
-	 * 
-	 * @throws IOException
-	 *           Signals that an I/O exception has occurred.
-	 * @throws URISyntaxException
-	 *           the uRI syntax exception
+	 *
+	 * @return the icon that was extracted
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws URISyntaxException the uRI syntax exception
 	 */
 	public File extractIconExample ()
 		throws IOException,

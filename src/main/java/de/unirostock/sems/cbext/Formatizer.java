@@ -31,9 +31,10 @@ import de.unirostock.sems.cbext.mapper.DefaultExtensionMapper;
 public class Formatizer
 {
 	
-	/** list of registered format parser */
+	/** list of registered format parser. */
 	private static List<FormatParser> formatizerList			= new ArrayList<FormatParser>();
-	/** list of registered extension mapper */
+	
+	/** list of registered extension mapper. */
 	private static List<ExtensionMapper> extensionMapperList	= new ArrayList<ExtensionMapper>();
 	
 	static
@@ -67,9 +68,9 @@ public class Formatizer
 	public static URI						GENERIC_UNKNOWN;
 	
 	/**
-	 * Adds a format parser to the formatizer
-	 *  
-	 * @param formatizer
+	 * Adds a format parser to the formatizer.
+	 *
+	 * @param parser the parser that considers more formats
 	 */
 	public static void addFormatParser(FormatParser parser) {
 		if( parser == null )
@@ -80,9 +81,9 @@ public class Formatizer
 	}
 	
 	/**
-	 * Adds a extension mapper to the formatizer
-	 * 
-	 * @param mapper
+	 * Adds a extension mapper to the formatizer.
+	 *
+	 * @param mapper the mapper
 	 */
 	public static void addExtensionMapper(ExtensionMapper mapper) {
 		if( mapper == null )
@@ -197,10 +198,13 @@ public class Formatizer
 	}
 	
 	/**
-	 * Comparator for Format Parser
-	 * 
+	 * Comparator for Format Parsers.
 	 */
 	private static class FormatParserComparator implements Comparator<FormatParser> {
+		
+		/* (non-Javadoc)
+		 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+		 */
 		@Override
 		public int compare(FormatParser o1, FormatParser o2) {
 			return o2.getPriority() - o1.getPriority();
@@ -208,7 +212,14 @@ public class Formatizer
 		
 	}
 	
+	/**
+	 * The Class ExtensionMapperComparator to sort the different extension mappers.
+	 */
 	private static class ExtensionMapperComparator implements Comparator<ExtensionMapper> {
+		
+		/* (non-Javadoc)
+		 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+		 */
 		@Override
 		public int compare(ExtensionMapper o1, ExtensionMapper o2) {
 			return o2.getPriority() - o1.getPriority();

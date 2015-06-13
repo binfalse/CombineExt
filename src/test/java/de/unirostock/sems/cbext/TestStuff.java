@@ -23,11 +23,16 @@ import de.unirostock.sems.cbext.mapper.DefaultExtensionMapper;
 import de.unirostock.sems.cbext.mapper.DefaultIconMapper;
 
 /**
- * @author Martin Scharm
+ * The Class TestStuff.
  *
+ * @author Martin Scharm
  */
 public class TestStuff
 {
+	
+	/**
+	 * Test format parser.
+	 */
 	@Test
 	public void testFormatParser ()
 	{
@@ -35,6 +40,9 @@ public class TestStuff
 		assertNull ("valid URI shouln't return null", FormatParser.buildUri (":", "binfalse.de"));
 	}
 	
+	/**
+	 * Test default icon mapper.
+	 */
 	@Test
 	public void testDefaultIconMapper ()
 	{
@@ -68,6 +76,9 @@ public class TestStuff
 		}
 	}
 	
+	/**
+	 * Test default extension mapper.
+	 */
 	@Test
 	public void testDefaultExtensionMapper ()
 	{
@@ -91,6 +102,9 @@ public class TestStuff
 		}
 	}
 	
+	/**
+	 * Test iconizer.
+	 */
 	@Test
 	public void testIconizer ()
 	{
@@ -159,10 +173,13 @@ public class TestStuff
 		
 	}
 	
+	/**
+	 * Test formatizer.
+	 */
 	@Test
 	public void testFormatizer ()
 	{
-		Formatizer formatizr = new Formatizer ();
+		new Formatizer ();
 		
 		try
 		{

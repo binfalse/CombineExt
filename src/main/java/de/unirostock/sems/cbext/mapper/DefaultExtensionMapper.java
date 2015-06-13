@@ -3,7 +3,6 @@ package de.unirostock.sems.cbext.mapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Properties;
 
 import de.binfalse.bflog.LOGGER;

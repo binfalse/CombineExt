@@ -10,8 +10,14 @@ import java.net.URL;
 
 import org.junit.Test;
 
+/**
+ * The Class TestExtension.
+ */
 public class TestExtension {
 
+	/**
+	 * Test format parser extension.
+	 */
 	@Test
 	public void testFormatParserExtension() {
 		
@@ -23,6 +29,9 @@ public class TestExtension {
 		assertEquals ("Does not got dummy format from TestFormatParser", "http://example.org/spec/dummy", format.toString ());
 	}
 	
+	/**
+	 * Test extension mapper.
+	 */
 	@Test
 	public void testExtensionMapper() {
 		
@@ -33,6 +42,9 @@ public class TestExtension {
 		assertEquals("Does not got dummy format for txt extension", "http://example.org/spec/text", format.toString());
 	}
 	
+	/**
+	 * Test extension mapper mime.
+	 */
 	@Test
 	public void testExtensionMapperMime() {
 		
@@ -43,6 +55,11 @@ public class TestExtension {
 		assertEquals("Does not got dummy format for txt mime type", "http://example.org/spec/text", format.toString());
 	}
 	
+	/**
+	 * Test icon mapper.
+	 *
+	 * @throws URISyntaxException the uRI syntax exception
+	 */
 	@Test
 	public void testIconMapper() throws URISyntaxException {
 		
@@ -53,13 +70,22 @@ public class TestExtension {
 		assertEquals("Does not got dummy icon name for dummy format", "test.png", name);
 	}
 	
+	/**
+	 * The Class TestFormatParser.
+	 */
 	public static class TestFormatParser extends FormatParser {
 
+		/* (non-Javadoc)
+		 * @see de.unirostock.sems.cbext.FormatParser#getPriority()
+		 */
 		@Override
 		public int getPriority() {
 			return 900;
 		}
 
+		/* (non-Javadoc)
+		 * @see de.unirostock.sems.cbext.FormatParser#checkFormat(java.io.File, java.lang.String)
+		 */
 		@Override
 		public URI checkFormat(File file, String mimeType) {
 			// always returns a dummy format
@@ -73,13 +99,22 @@ public class TestExtension {
 		
 	}
 	
+	/**
+	 * The Class TestExtensionMapper.
+	 */
 	public static class TestExtensionMapper implements ExtensionMapper {
 
+		/* (non-Javadoc)
+		 * @see de.unirostock.sems.cbext.ExtensionMapper#getPriority()
+		 */
 		@Override
 		public int getPriority() {
 			return 900;
 		}
 
+		/* (non-Javadoc)
+		 * @see de.unirostock.sems.cbext.ExtensionMapper#getFormatFromMime(java.lang.String)
+		 */
 		@Override
 		public URI getFormatFromMime(String mime) {
 			if( mime.equals("text/plain") ) {
@@ -93,6 +128,9 @@ public class TestExtension {
 			return null;
 		}
 
+		/* (non-Javadoc)
+		 * @see de.unirostock.sems.cbext.ExtensionMapper#getFormatFromExtension(java.lang.String)
+		 */
 		@Override
 		public URI getFormatFromExtension(String extension) {
 			if( extension.equals("txt") ) {
@@ -108,13 +146,22 @@ public class TestExtension {
 		
 	}
 	
+	/**
+	 * The Class TestIconMapper.
+	 */
 	public static class TestIconMapper implements IconMapper {
 
+		/* (non-Javadoc)
+		 * @see de.unirostock.sems.cbext.IconMapper#getPriority()
+		 */
 		@Override
 		public int getPriority() {
 			return 900;
 		}
 
+		/* (non-Javadoc)
+		 * @see de.unirostock.sems.cbext.IconMapper#hasIcon(java.net.URI)
+		 */
 		@Override
 		public boolean hasIcon(URI format) {
 			if( format.toString().equals("http://example.org/spec/dummy") )
@@ -123,6 +170,9 @@ public class TestExtension {
 				return false;
 		}
 
+		/* (non-Javadoc)
+		 * @see de.unirostock.sems.cbext.IconMapper#formatToIconUrl(java.net.URI)
+		 */
 		@Override
 		public URL formatToIconUrl(URI format) {
 			/* not allowed outside of this test case
@@ -131,6 +181,9 @@ public class TestExtension {
 			return null;
 		}
 
+		/* (non-Javadoc)
+		 * @see de.unirostock.sems.cbext.IconMapper#formatToIconStream(java.net.URI)
+		 */
 		@Override
 		public InputStream formatToIconStream(URI format) {
 			/* not allowed outside of this test case
@@ -139,6 +192,9 @@ public class TestExtension {
 			return null;
 		}
 
+		/* (non-Javadoc)
+		 * @see de.unirostock.sems.cbext.IconMapper#formatToIconName(java.net.URI)
+		 */
 		@Override
 		public String formatToIconName(URI format) {
 			if( format.toString().equals("http://example.org/spec/dummy") )
