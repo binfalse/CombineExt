@@ -1,4 +1,4 @@
-package de.unirostock.sems.cbext.mapper;
+package de.unirostock.sems.cbext.collections;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,12 +8,12 @@ import java.util.Properties;
 import java.util.Set;
 
 import de.binfalse.bflog.LOGGER;
-import de.unirostock.sems.cbext.IconMapper;
+import de.unirostock.sems.cbext.IconCollection;
 
 /**
  * The Class DefaultIconMapper.
  */
-public class DefaultIconMapper implements IconMapper {
+public class DefaultIconCollection implements IconCollection {
 	
 	/** The Constant FORMAT2ICON_NAME. */
 	private static final String FORMAT2ICON_NAME		= "/format2icon.prop";
@@ -27,15 +27,15 @@ public class DefaultIconMapper implements IconMapper {
 	/**
 	 * Instantiates a new default icon mapper.
 	 */
-	public DefaultIconMapper() {
+	public DefaultIconCollection() {
 		
 		try {
-			InputStream input = DefaultIconMapper.class.getResourceAsStream(FORMAT2ICON_NAME);
+			InputStream input = DefaultIconCollection.class.getResourceAsStream(FORMAT2ICON_NAME);
 			format2Icon.load(input);
 			input.close();
 		}
 		catch (IOException e) {
-			LOGGER.error (e, "error reading known formats: ", DefaultIconMapper.class.getResourceAsStream (FORMAT2ICON_NAME) );
+			LOGGER.error (e, "error reading known formats: ", DefaultIconCollection.class.getResourceAsStream (FORMAT2ICON_NAME) );
 		}
 		
 	}
@@ -63,7 +63,7 @@ public class DefaultIconMapper implements IconMapper {
 	public URL formatToIconUrl(URI format) {
 		String name = formatToIconName(format);
 		if( name != null )
-			return DefaultIconMapper.class.getResource( ICON_DIR + name );
+			return DefaultIconCollection.class.getResource( ICON_DIR + name );
 		else
 			return null;
 	}
@@ -75,7 +75,7 @@ public class DefaultIconMapper implements IconMapper {
 	public InputStream formatToIconStream(URI format) {
 		String name = formatToIconName(format);
 		if( name != null )
-			return DefaultIconMapper.class.getResourceAsStream( ICON_DIR + name );
+			return DefaultIconCollection.class.getResourceAsStream( ICON_DIR + name );
 		else
 			return null;
 	}

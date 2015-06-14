@@ -231,7 +231,7 @@ public class TestExtension {
 	/**
 	 * The Class TestIconMapper.
 	 */
-	public static class TestIconMapper implements IconMapper {
+	public static class TestIconMapper implements IconCollection {
 
 		/* (non-Javadoc)
 		 * @see de.unirostock.sems.cbext.IconMapper#getPriority()

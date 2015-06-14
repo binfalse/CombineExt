@@ -19,7 +19,7 @@ import java.util.Set;
 
 import org.junit.Test;
 
-import de.unirostock.sems.cbext.mapper.DefaultIconMapper;
+import de.unirostock.sems.cbext.collections.DefaultIconCollection;
 import de.unirostock.sems.cbext.recognizer.DefaultRecognizer;
 
 /**
@@ -46,7 +46,7 @@ public class TestStuff
 	@Test
 	public void testDefaultIconMapper ()
 	{
-		DefaultIconMapper dim = new DefaultIconMapper ();
+		DefaultIconCollection dim = new DefaultIconCollection ();
 		assertEquals ("expected a priority of 100 for the DefaultIconMapper", 100, dim.getPriority ());
 		
 		Set<Object> keys = dim.getAvailableFormatIcons ();

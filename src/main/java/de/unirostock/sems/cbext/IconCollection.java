@@ -5,12 +5,12 @@ import java.net.URI;
 import java.net.URL;
 
 /**
- * Interface for extending the known icons.
+ * Interface for extending the collection of known icons.
  * 
  * @author martin peters
  *
  */
-public interface IconMapper {
+public interface IconCollection {
 	
 	/**
 	 * Defines the priority of this mapper.

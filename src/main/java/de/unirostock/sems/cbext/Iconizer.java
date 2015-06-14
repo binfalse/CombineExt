@@ -15,24 +15,26 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import de.unirostock.sems.cbext.mapper.DefaultIconMapper;
+import de.unirostock.sems.cbext.collections.DefaultIconCollection;
 
 
 
 /**
- * The Class Iconizer to retrieve icons for common file types..
+ * The Class Iconizer helps you retrieving icons for common file types.
+ * 
+ * This class holds a list of known icon collections and asks them for icons given a certain format.
  * 
  * @author Martin Scharm
  */
 public class Iconizer
 {	
-	/** known icon mapper */
-	private static List<IconMapper> iconMapperList		= new ArrayList<IconMapper>();
+	/** known icon collections */
+	private static List<IconCollection> iconMapperList		= new ArrayList<IconCollection>();
 	
 	static {
 		
 		// add default icon mapper
-		iconMapperList.add( new DefaultIconMapper() );
+		iconMapperList.add( new DefaultIconCollection() );
 		Collections.sort(iconMapperList, new IconMapperComparator());
 	}
 	
@@ -47,7 +49,7 @@ public class Iconizer
 	 *  
 	 * @param mapper
 	 */
-	public static void addIconMapper(IconMapper mapper) {
+	public static void addIconMapper(IconCollection mapper) {
 		if( mapper == null )
 			throw new IllegalArgumentException("The mapper is not allowed to be null.");
 		
@@ -69,7 +71,7 @@ public class Iconizer
 			return GENERIC_UNKNOWN;
 		
 		String name = null;
-		for( IconMapper mapper : iconMapperList ) {
+		for( IconCollection mapper : iconMapperList ) {
 			if( (name = mapper.formatToIconName(format)) != null )
 				break;
 		}
@@ -95,7 +97,7 @@ public class Iconizer
 			return Iconizer.class.getResource( "/icons/" + GENERIC_UNKNOWN );
 		
 		URL url = null;
-		for( IconMapper mapper : iconMapperList ) {
+		for( IconCollection mapper : iconMapperList ) {
 			if( (url = mapper.formatToIconUrl(format)) != null )
 				break;
 		}
@@ -118,7 +120,7 @@ public class Iconizer
 			return Iconizer.class.getResourceAsStream( "/icons/" + GENERIC_UNKNOWN );
 		
 		InputStream url = null;
-		for( IconMapper mapper : iconMapperList ) {
+		for( IconCollection mapper : iconMapperList ) {
 			if( (url = mapper.formatToIconStream(format)) != null )
 				break;
 		}
@@ -178,9 +180,9 @@ public class Iconizer
 		return expectedFile;
 	}
 	
-	private static class IconMapperComparator implements Comparator<IconMapper> {
+	private static class IconMapperComparator implements Comparator<IconCollection> {
 		@Override
-		public int compare(IconMapper o1, IconMapper o2) {
+		public int compare(IconCollection o1, IconCollection o2) {
 			return o2.getPriority() - o1.getPriority();
 		}
 		
