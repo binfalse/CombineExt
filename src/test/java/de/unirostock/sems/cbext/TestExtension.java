@@ -1,6 +1,9 @@
 package de.unirostock.sems.cbext;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.InputStream;
@@ -161,10 +164,42 @@ public class TestExtension {
 	public void testIconMapper() throws URISyntaxException {
 		
 		// high priority, executing before default extension mapper (prio = 100)
-		Iconizer.addIconMapper( new TestIconMapper() );
+		TestIconMapper tim = new TestIconMapper();
+		Iconizer.addIconMapper( tim );
 		
-		String name = Iconizer.formatToIcon(new URI("http://example.org/spec/dummy"));
-		assertEquals("Did not get dummy icon name for dummy format", "test.png", name);
+		assertTrue ("test icon mapper has no icon for dummy format", tim.hasIcon (new URI("http://example.org/spec/dummy")));
+		assertFalse ("test icon mapper has an icon for unknown format", tim.hasIcon (new URI("http://somet.hing")));
+		assertFalse ("test icon mapper has an icon for sbml format", tim.hasIcon (new URI("http://identifiers.org/combine.specifications/sbml.level-2.version-4")));
+		
+		
+		assertEquals("Did not get dummy icon name for dummy format", 
+			"test.png", Iconizer.formatToIcon(new URI("http://example.org/spec/dummy")));
+		assertEquals("Did not get default icon name for unknown format", 
+			"Blue-unknown.png", Iconizer.formatToIcon(new URI("http://somet.hing")));
+		assertEquals("Did not get sbml icon name for sbml format", 
+			"Blue-sbml.png",
+			Iconizer.formatToIcon(new URI("http://identifiers.org/combine.specifications/sbml.level-2.version-4")));
+
+		assertTrue ("Did not get default icon url for dummy format",
+			Iconizer.formatToIconUrl (
+				new URI("http://example.org/spec/dummy"))
+				.toString ().endsWith ("Blue-unknown.png"));
+		assertTrue ("Did not get default icon url for unknown format",
+			Iconizer.formatToIconUrl (
+				new URI("http://somet.hing"))
+				.toString ().endsWith ("Blue-unknown.png"));
+		assertTrue ("Did not get sbml icon url for sbml format",
+			Iconizer.formatToIconUrl (
+				new URI("http://identifiers.org/combine.specifications/sbml.level-2.version-4"))
+				.toString ().endsWith ("Blue-sbml.png"));
+		
+		assertNotNull ("did not expect null stream for dummy format",
+			Iconizer.formatToIconStream (new URI("http://example.org/spec/dummy")));
+		assertNotNull ("did not expect null stream for unknown format",
+			Iconizer.formatToIconStream (new URI("http://somet.hing")));
+		assertNotNull ("did not expect null stream for sbml format",
+			Iconizer.formatToIconStream (
+				new URI("http://identifiers.org/combine.specifications/sbml.level-2.version-4")));
 	}
 	
 	/**
