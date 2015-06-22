@@ -4,13 +4,16 @@ import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
 
+
+
 /**
  * Interface for extending the collection of known icons.
  * 
  * @author martin peters
- *
+ * 
  */
-public interface IconCollection {
+public interface IconCollection
+{
 	
 	/**
 	 * Defines the priority of this mapper.
@@ -20,7 +23,8 @@ public interface IconCollection {
 	 * 
 	 * @return an integer > 0
 	 */
-	public int getPriority();
+	public int getPriority ();
+	
 	
 	/**
 	 * Returns true, if the given format is available in this mapper.
@@ -28,35 +32,38 @@ public interface IconCollection {
 	 * @param format
 	 * @return true, if we have an icon for that format
 	 */
-	public boolean hasIcon(URI format);
+	public boolean hasIcon (URI format);
+	
 	
 	/**
 	 * Get a URL pointing to an icon in the archive.
-	 * If no icon is available <pre>null</pre> is supposed to be returned.
+	 * If no icon is available <code>null</code> is supposed to be returned.
 	 * 
 	 * @param format
 	 * @return the URL pointing to the icon for that format
 	 */
-	public URL formatToIconUrl(URI format);
+	public URL formatToIconUrl (URI format);
+	
 	
 	/**
 	 * Get an icon stream given a format. This stream will ship the icon as it is
 	 * stored in our jar file.
-	 * If no icon is available <pre>null</pre> is supposed to be returned.
+	 * If no icon is available <code>null</code> is supposed to be returned.
 	 * 
 	 * @param format
 	 * @return the stream delivering the icon for the format
 	 */
-	public InputStream formatToIconStream(URI format);
+	public InputStream formatToIconStream (URI format);
+	
 	
 	/**
 	 * Get an icon file name given a format, as it can be found in our jar
 	 * archive. Especially useful for people who are going to extract the icons.
-	 * If no icon is available <pre>null</pre> is supposed to be returned.
+	 * If no icon is available <code>null</code> is supposed to be returned.
 	 * 
 	 * @param format
 	 * @return the name of the icon for this format
 	 */
-	public String formatToIconName(URI format);
+	public String formatToIconName (URI format);
 	
 }

@@ -22,9 +22,11 @@ import org.junit.Test;
 import de.unirostock.sems.cbext.collections.DefaultIconCollection;
 import de.unirostock.sems.cbext.recognizer.DefaultRecognizer;
 
+
+
 /**
  * The Class TestStuff.
- *
+ * 
  * @author Martin Scharm
  */
 public class TestStuff
@@ -36,9 +38,12 @@ public class TestStuff
 	@Test
 	public void testFormatParser ()
 	{
-		assertNotNull ("valid URI shouln't return null", FormatRecognizer.buildUri ("http://", "binfalse.de"));
-		assertNull ("valid URI shouln't return null", FormatRecognizer.buildUri (":", "binfalse.de"));
+		assertNotNull ("valid URI shouln't return null",
+			FormatRecognizer.buildUri ("http://", "binfalse.de"));
+		assertNull ("valid URI shouln't return null",
+			FormatRecognizer.buildUri (":", "binfalse.de"));
 	}
+	
 	
 	/**
 	 * Test default icon mapper.
@@ -47,7 +52,8 @@ public class TestStuff
 	public void testDefaultIconMapper ()
 	{
 		DefaultIconCollection dim = new DefaultIconCollection ();
-		assertEquals ("expected a priority of 100 for the DefaultIconMapper", 100, dim.getPriority ());
+		assertEquals ("expected a priority of 100 for the DefaultIconMapper", 100,
+			dim.getPriority ());
 		
 		Set<Object> keys = dim.getAvailableFormatIcons ();
 		for (Object k : keys)
@@ -55,52 +61,64 @@ public class TestStuff
 			try
 			{
 				URI format = new URI ((String) k);
-				assertTrue ("did not find icon for format: " + format, dim.hasIcon (format));
-				assertNotNull ("cannot find icon name for format: " + format, dim.formatToIconName (format));
-				assertNotNull ("cannot find icon url for format: " + format, dim.formatToIconUrl (format));
-				assertNotNull ("cannot open icon stream for format: " + format, dim.formatToIconStream (format));
+				assertTrue ("did not find icon for format: " + format,
+					dim.hasIcon (format));
+				assertNotNull ("cannot find icon name for format: " + format,
+					dim.formatToIconName (format));
+				assertNotNull ("cannot find icon url for format: " + format,
+					dim.formatToIconUrl (format));
+				assertNotNull ("cannot open icon stream for format: " + format,
+					dim.formatToIconStream (format));
 				
-
 				format = new URI ("http://binfalse.de");
-				assertFalse ("did not expect to find icon for format: " + format, dim.hasIcon (format));
-				assertNull ("did not expect to find icon name for format: " + format, dim.formatToIconName (format));
-				assertNull ("did not expect to find icon url for format: " + format, dim.formatToIconUrl (format));
-				assertNull ("did not expect to open icon stream for format: " + format, dim.formatToIconStream (format));
+				assertFalse ("did not expect to find icon for format: " + format,
+					dim.hasIcon (format));
+				assertNull ("did not expect to find icon name for format: " + format,
+					dim.formatToIconName (format));
+				assertNull ("did not expect to find icon url for format: " + format,
+					dim.formatToIconUrl (format));
+				assertNull ("did not expect to open icon stream for format: " + format,
+					dim.formatToIconStream (format));
 				
 			}
 			catch (URISyntaxException e)
 			{
-				e.printStackTrace();
+				e.printStackTrace ();
 				fail ("there is apparently a wrong format url in the icon mapper list?");
 			}
 		}
 	}
 	
+	
 	/**
 	 * Test default extension mapper.
 	 */
 	@Test
-	public void testDefaultExtensionMapper ()
+	public void testDefaultRecognizer ()
 	{
 		DefaultRecognizer dem = new DefaultRecognizer ();
-		assertEquals ("expected a priority of 100 for the DefaultExtensionMapper", 100, dem.getPriority ());
+		assertEquals ("expected a priority of 100 for the DefaultExtensionMapper",
+			100, dem.getPriority ());
 		
 		assertNull ("didn't expect format for null", dem.getFormatFromMime (null));
-		
 		
 		try
 		{
 			URI format = new URI ("http://purl.org/NET/mediatypes/application/xml");
-			assertEquals ("unexpected format for .xml", format, dem.getFormatFromExtension ("xml"));
-			assertNull ("unexpected format for .xml", dem.getFormatFromMime ("application/xml"));
-			assertEquals ("unexpected format for .xml", format, Formatizer.getFormatFromMime ("application/xml"));
+			assertEquals ("unexpected format for .xml", format,
+				dem.getFormatFromExtension ("xml"));
+			assertNull ("unexpected format for .xml",
+				dem.getFormatFromMime ("application/xml"));
+			assertEquals ("unexpected format for .xml", format,
+				Formatizer.getFormatFromMime ("application/xml"));
 		}
 		catch (URISyntaxException e)
 		{
-			e.printStackTrace();
+			e.printStackTrace ();
 			fail ("couldn't create URI");
 		}
 	}
+	
 	
 	/**
 	 * Test iconizer.
@@ -115,9 +133,9 @@ public class TestStuff
 			tmp = iconizr.extractIconExample ();
 			tmp.delete ();
 		}
-		catch (IOException|URISyntaxException e)
+		catch (IOException | URISyntaxException e)
 		{
-			e.printStackTrace();
+			e.printStackTrace ();
 			fail ("unexpected exception");
 		}
 		
@@ -133,45 +151,46 @@ public class TestStuff
 		
 		// test empty icon
 		InputStream fin = Iconizer.formatToIconStream (null);
-    byte[] bytes = new byte[1024];
-    int noOfBytes = 0, b = 0;
-
-    try
-		{
-			while( (b = fin.read(bytes)) != -1 )
-			{
-				noOfBytes += b;
-			}
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-			fail ("failed to read generic icon");
-		}
-    assertEquals ("generic icon has unexpected size", 1487, noOfBytes);
-    
-    
-		// test icon for unknown uri
-		fin = Iconizer.formatToIconStream (FormatRecognizer.buildUri ("http://", "binfalse.de"));
-    bytes = new byte[1024];
-    noOfBytes = 0; b = 0;
-
-    try
-		{
-			while( (b = fin.read(bytes)) != -1 )
-			{
-				noOfBytes += b;
-			}
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-			fail ("failed to read generic icon");
-		}
-    assertEquals ("generic icon has unexpected size", 1487, noOfBytes);
+		byte[] bytes = new byte[1024];
+		int noOfBytes = 0, b = 0;
 		
+		try
+		{
+			while ( (b = fin.read (bytes)) != -1)
+			{
+				noOfBytes += b;
+			}
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace ();
+			fail ("failed to read generic icon");
+		}
+		assertEquals ("generic icon has unexpected size", 1487, noOfBytes);
+		
+		// test icon for unknown uri
+		fin = Iconizer.formatToIconStream (FormatRecognizer.buildUri ("http://",
+			"binfalse.de"));
+		bytes = new byte[1024];
+		noOfBytes = 0;
+		b = 0;
+		
+		try
+		{
+			while ( (b = fin.read (bytes)) != -1)
+			{
+				noOfBytes += b;
+			}
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace ();
+			fail ("failed to read generic icon");
+		}
+		assertEquals ("generic icon has unexpected size", 1487, noOfBytes);
 		
 	}
+	
 	
 	/**
 	 * Test formatizer.
@@ -190,16 +209,26 @@ public class TestStuff
 		{
 			// that's ok
 		}
-
-		assertNull ("expected null for a null file", Formatizer.guessFormat (null));
-		assertNull ("expected null for a non-file", Formatizer.guessFormat (new File ("non ex ist ing")));
-		assertEquals ("expected cellml format for a cellml file", "http://identifiers.org/combine.specifications/cellml", Formatizer.guessFormat (new File ("test/aguda_b_1999.cellml")).toString ());
-		assertEquals ("expected biopax format for a file with biopax extension", "http://identifiers.org/combine.specifications/biopax", Formatizer.guessFormat (new File ("test/aguda_b_1999-invalid.biopax")).toString ());
-		assertEquals ("expected plaintext format for a plain text file w/o extension", "http://purl.org/NET/mediatypes/text/plain", Formatizer.guessFormat (new File ("test/plaintext")).toString ());
 		
-
-		assertEquals ("expected generic format for null ext", Formatizer.GENERIC_UNKNOWN, Formatizer.getFormatFromExtension (null));
-		assertEquals ("expected generic format for null mime", Formatizer.GENERIC_UNKNOWN, Formatizer.getFormatFromMime (null));
+		assertNull ("expected null for a null file", Formatizer.guessFormat (null));
+		assertNull ("expected null for a non-file",
+			Formatizer.guessFormat (new File ("non ex ist ing")));
+		assertEquals ("expected cellml format for a cellml file",
+			"http://identifiers.org/combine.specifications/cellml", Formatizer
+				.guessFormat (new File ("test/aguda_b_1999.cellml")).toString ());
+		assertEquals ("expected biopax format for a file with biopax extension",
+			"http://identifiers.org/combine.specifications/biopax", Formatizer
+				.guessFormat (new File ("test/aguda_b_1999-invalid.biopax"))
+				.toString ());
+		assertEquals (
+			"expected plaintext format for a plain text file w/o extension",
+			"http://purl.org/NET/mediatypes/text/plain",
+			Formatizer.guessFormat (new File ("test/plaintext")).toString ());
+		
+		assertEquals ("expected generic format for null ext",
+			Formatizer.GENERIC_UNKNOWN, Formatizer.getFormatFromExtension (null));
+		assertEquals ("expected generic format for null mime",
+			Formatizer.GENERIC_UNKNOWN, Formatizer.getFormatFromMime (null));
 		
 	}
 	

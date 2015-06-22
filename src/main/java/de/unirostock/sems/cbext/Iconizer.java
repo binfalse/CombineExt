@@ -22,40 +22,47 @@ import de.unirostock.sems.cbext.collections.DefaultIconCollection;
 /**
  * The Class Iconizer helps you retrieving icons for common file types.
  * 
- * This class holds a list of known icon collections and asks them for icons given a certain format.
+ * This class holds a list of known icon collections and asks them for icons
+ * given a certain format.
  * 
  * @author Martin Scharm
  */
 public class Iconizer
-{	
-	/** known icon collections */
-	private static List<IconCollection> iconMapperList		= new ArrayList<IconCollection>();
+{
 	
-	static {
+	/** known icon collections */
+	private static List<IconCollection>	iconMapperList	= new ArrayList<IconCollection> ();
+	
+	static
+	{
 		
 		// add default icon mapper
-		iconMapperList.add( new DefaultIconCollection() );
-		Collections.sort(iconMapperList, new IconMapperComparator());
+		iconMapperList.add (new DefaultIconCollection ());
+		Collections.sort (iconMapperList, new IconMapperComparator ());
 	}
 	
 	/**
 	 * The Constant GENERIC_UNKNOWN representing the icon file for unknown file
 	 * types.
 	 */
-	public static final String	GENERIC_UNKNOWN	= "Blue-unknown.png";
+	public static final String					GENERIC_UNKNOWN	= "Blue-unknown.png";
+	
 	
 	/**
 	 * Adds a icon mapper to the Iconizer
-	 *  
+	 * 
 	 * @param mapper
 	 */
-	public static void addIconMapper(IconCollection mapper) {
-		if( mapper == null )
-			throw new IllegalArgumentException("The mapper is not allowed to be null.");
+	public static void addIconMapper (IconCollection mapper)
+	{
+		if (mapper == null)
+			throw new IllegalArgumentException (
+				"The mapper is not allowed to be null.");
 		
-		iconMapperList.add(mapper);
-		Collections.sort(iconMapperList, new IconMapperComparator());
+		iconMapperList.add (mapper);
+		Collections.sort (iconMapperList, new IconMapperComparator ());
 	}
+	
 	
 	/**
 	 * Get an icon file name given a format, as it can be found in our jar
@@ -71,8 +78,9 @@ public class Iconizer
 			return GENERIC_UNKNOWN;
 		
 		String name = null;
-		for( IconCollection mapper : iconMapperList ) {
-			if( (name = mapper.formatToIconName(format)) != null )
+		for (IconCollection mapper : iconMapperList)
+		{
+			if ( (name = mapper.formatToIconName (format)) != null)
 				break;
 		}
 		
@@ -94,15 +102,17 @@ public class Iconizer
 	public static URL formatToIconUrl (URI format)
 	{
 		if (format == null)
-			return Iconizer.class.getResource( "/icons/" + GENERIC_UNKNOWN );
+			return Iconizer.class.getResource ("/icons/" + GENERIC_UNKNOWN);
 		
 		URL url = null;
-		for( IconCollection mapper : iconMapperList ) {
-			if( (url = mapper.formatToIconUrl(format)) != null )
+		for (IconCollection mapper : iconMapperList)
+		{
+			if ( (url = mapper.formatToIconUrl (format)) != null)
 				break;
 		}
 		
-		return url != null ? url : Iconizer.class.getResource( "/icons/" + GENERIC_UNKNOWN );
+		return url != null ? url : Iconizer.class.getResource ("/icons/"
+			+ GENERIC_UNKNOWN);
 	}
 	
 	
@@ -117,28 +127,30 @@ public class Iconizer
 	public static InputStream formatToIconStream (URI format)
 	{
 		if (format == null)
-			return Iconizer.class.getResourceAsStream( "/icons/" + GENERIC_UNKNOWN );
+			return Iconizer.class.getResourceAsStream ("/icons/" + GENERIC_UNKNOWN);
 		
 		InputStream url = null;
-		for( IconCollection mapper : iconMapperList ) {
-			if( (url = mapper.formatToIconStream(format)) != null )
+		for (IconCollection mapper : iconMapperList)
+		{
+			if ( (url = mapper.formatToIconStream (format)) != null)
 				break;
 		}
 		
-		return url != null ? url : Iconizer.class.getResourceAsStream( "/icons/" + GENERIC_UNKNOWN );
+		return url != null ? url : Iconizer.class.getResourceAsStream ("/icons/"
+			+ GENERIC_UNKNOWN);
 	}
 	
 	
 	/**
 	 * Example for extracting an icon. Not to be used.
-	 *
+	 * 
 	 * @return the icon that was extracted
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 * @throws URISyntaxException the uRI syntax exception
+	 * @throws IOException
+	 *           Signals that an I/O exception has occurred.
+	 * @throws URISyntaxException
+	 *           the uRI syntax exception
 	 */
-	public File extractIconExample ()
-		throws IOException,
-			URISyntaxException
+	public File extractIconExample () throws IOException, URISyntaxException
 	{
 		URI format = new URI ("http://identifiers.org/combine.specifications/sbml");
 		
@@ -180,10 +192,14 @@ public class Iconizer
 		return expectedFile;
 	}
 	
-	private static class IconMapperComparator implements Comparator<IconCollection> {
+	private static class IconMapperComparator
+		implements Comparator<IconCollection>
+	{
+		
 		@Override
-		public int compare(IconCollection o1, IconCollection o2) {
-			return o2.getPriority() - o1.getPriority();
+		public int compare (IconCollection o1, IconCollection o2)
+		{
+			return o2.getPriority () - o1.getPriority ();
 		}
 		
 	}

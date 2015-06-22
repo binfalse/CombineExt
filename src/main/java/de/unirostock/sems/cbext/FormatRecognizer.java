@@ -25,7 +25,8 @@ import de.binfalse.bflog.LOGGER;
  * {@link FormatRecognizer.getFormatFromExtension (java.lang.String)}</li>
  * </ul>
  * 
- * If one of the methods fail to determin the format they must return null.
+ * If one of the methods fail to determin the format they must return
+ * <code>null</code>.
  * 
  * The priority determines the order we use to ask different recognizers.
  * Default recognizers have a priority of 100.
@@ -46,7 +47,7 @@ public abstract class FormatRecognizer
 	protected static final String	PURL_BASE					= "http://purl.org/NET/mediatypes/";
 	
 	/** identifiers.org base uri. */
-	protected static final String	IDENTIFIERS_BASE	= "http://identifiers.org/combine.specifications/";
+	public static final String		IDENTIFIERS_BASE	= "http://identifiers.org/combine.specifications/";
 	
 	
 	/**
@@ -67,7 +68,8 @@ public abstract class FormatRecognizer
 	 * Parses the given file and tries to determine the format, such as purl.org
 	 * or identifiers.org URI.
 	 * 
-	 * If the recognizer is not able to understand the file it must return null.
+	 * If the recognizer is not able to understand the file it must return
+	 * <code>null</code>.
 	 * 
 	 * @param file
 	 *          Path to the file
@@ -82,7 +84,7 @@ public abstract class FormatRecognizer
 	 * Tries to map the given mime type to a format.
 	 * 
 	 * If the recognizer is not able to understand the mime type it must return
-	 * null.
+	 * <code>null</code>.
 	 * 
 	 * @param mime
 	 *          MIME type
@@ -95,7 +97,7 @@ public abstract class FormatRecognizer
 	 * Tries to map the given file extension to a format.
 	 * 
 	 * If the recognizer is not able to understand the extension it must return
-	 * null.
+	 * <code>null</code>.
 	 * 
 	 * @param extension
 	 *          file extension
@@ -134,7 +136,7 @@ public abstract class FormatRecognizer
 	/**
 	 * Builds an URI as `start+end` without caring about an exception. Only use if
 	 * you're sure it's not going to fail. If we cannot produce this URI, we're
-	 * returning null.
+	 * returning <code>null</code>.
 	 * 
 	 * @param pre
 	 *          the start

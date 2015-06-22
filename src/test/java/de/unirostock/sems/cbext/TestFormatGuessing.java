@@ -21,15 +21,18 @@ import de.unirostock.sems.cbext.recognizer.SbmlRecognizer;
 import de.unirostock.sems.cbext.recognizer.SbolRecognizer;
 import de.unirostock.sems.cbext.recognizer.SedMlRecognizer;
 
+
+
 /**
  * @author Martin Scharm
- *
+ * 
  */
 public class TestFormatGuessing
 {
 	
 	/** The Constant XML_FILE. */
-	public static final File XML_FILE = new File ("test/some.xml");
+	public static final File	XML_FILE	= new File ("test/some.xml");
+	
 	
 	/**
 	 * Test SBML guessing.
@@ -41,8 +44,8 @@ public class TestFormatGuessing
 		String fn = f.getAbsolutePath ();
 		String correctFormat = "http://identifiers.org/combine.specifications/sbml.level-2.version-4";
 		URI format = Formatizer.guessFormat (f);
-		assertEquals ("got wrong format for " + fn, correctFormat, format.toString ());
-		
+		assertEquals ("got wrong format for " + fn, correctFormat,
+			format.toString ());
 		
 		// test the recognizer
 		SbmlRecognizer recognizer = new SbmlRecognizer ();
@@ -53,21 +56,31 @@ public class TestFormatGuessing
 		}
 		catch (IOException e)
 		{
-			e.printStackTrace();
+			e.printStackTrace ();
 			fail ("wasn't able to get mime...");
 		}
-
-		assertEquals ("got wrong format for " + fn, correctFormat, recognizer.getFormatByParsing (f, mime).toString ());
-		assertNull ("got wrong format for " + fn, recognizer.getFormatByParsing (XML_FILE, mime));
 		
-		assertNull ("got wrong format for " + fn, recognizer.getFormatFromMime ("something"));
-		assertNull ("got wrong format for " + fn, recognizer.getFormatFromMime (mime));
-		assertNull ("got wrong format for " + fn, recognizer.getFormatFromMime (null));
+		assertEquals ("got wrong format for " + fn, correctFormat, recognizer
+			.getFormatByParsing (f, mime).toString ());
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatByParsing (XML_FILE, mime));
 		
-		assertEquals ("got wrong format for " + fn, "http://identifiers.org/combine.specifications/sbml", recognizer.getFormatFromExtension ("sbml").toString ());
-		assertNull ("got wrong format for " + fn, recognizer.getFormatFromExtension (null));
-		assertNull ("got wrong format for " + fn, recognizer.getFormatFromExtension ("stuff"));
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatFromMime ("something"));
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatFromMime (mime));
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatFromMime (null));
+		
+		assertEquals ("got wrong format for " + fn,
+			"http://identifiers.org/combine.specifications/sbml", recognizer
+				.getFormatFromExtension ("sbml").toString ());
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatFromExtension (null));
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatFromExtension ("stuff"));
 	}
+	
 	
 	/**
 	 * Test SBOL guessing.
@@ -79,8 +92,8 @@ public class TestFormatGuessing
 		String fn = f.getAbsolutePath ();
 		String correctFormat = "http://identifiers.org/combine.specifications/sbol";
 		URI format = Formatizer.guessFormat (f);
-		assertEquals ("got wrong format for " + fn, correctFormat, format.toString ());
-		
+		assertEquals ("got wrong format for " + fn, correctFormat,
+			format.toString ());
 		
 		// test the recognizer
 		SbolRecognizer recognizer = new SbolRecognizer ();
@@ -91,21 +104,30 @@ public class TestFormatGuessing
 		}
 		catch (IOException e)
 		{
-			e.printStackTrace();
+			e.printStackTrace ();
 			fail ("wasn't able to get mime...");
 		}
-
-		assertEquals ("got wrong format for " + fn, correctFormat, recognizer.getFormatByParsing (f, mime).toString ());
-		assertNull ("got wrong format for " + fn, recognizer.getFormatByParsing (XML_FILE, mime));
 		
-		assertNull ("got wrong format for " + fn, recognizer.getFormatFromMime ("something"));
-		assertNull ("got wrong format for " + fn, recognizer.getFormatFromMime (mime));
-		assertNull ("got wrong format for " + fn, recognizer.getFormatFromMime (null));
+		assertEquals ("got wrong format for " + fn, correctFormat, recognizer
+			.getFormatByParsing (f, mime).toString ());
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatByParsing (XML_FILE, mime));
 		
-		assertEquals ("got wrong format for " + fn, correctFormat, recognizer.getFormatFromExtension ("sbol").toString ());
-		assertNull ("got wrong format for " + fn, recognizer.getFormatFromExtension (null));
-		assertNull ("got wrong format for " + fn, recognizer.getFormatFromExtension ("stuff"));
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatFromMime ("something"));
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatFromMime (mime));
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatFromMime (null));
+		
+		assertEquals ("got wrong format for " + fn, correctFormat, recognizer
+			.getFormatFromExtension ("sbol").toString ());
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatFromExtension (null));
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatFromExtension ("stuff"));
 	}
+	
 	
 	/**
 	 * Test BioPax guessing.
@@ -113,12 +135,13 @@ public class TestFormatGuessing
 	@Test
 	public void testGuessBioPax ()
 	{
-		File f = new File ("test/guess-biopax-paxtools-core-src-main-resources-org-biopax-paxtools-model-biopax-level3.owl");
+		File f = new File (
+			"test/guess-biopax-paxtools-core-src-main-resources-org-biopax-paxtools-model-biopax-level3.owl");
 		String fn = f.getAbsolutePath ();
 		String correctFormat = "http://identifiers.org/combine.specifications/biopax";
 		URI format = Formatizer.guessFormat (f);
-		assertEquals ("got wrong format for " + fn, correctFormat, format.toString ());
-		
+		assertEquals ("got wrong format for " + fn, correctFormat,
+			format.toString ());
 		
 		// test the recognizer
 		BioPaxRecognizer recognizer = new BioPaxRecognizer ();
@@ -129,21 +152,30 @@ public class TestFormatGuessing
 		}
 		catch (IOException e)
 		{
-			e.printStackTrace();
+			e.printStackTrace ();
 			fail ("wasn't able to get mime...");
 		}
-
-		assertEquals ("got wrong format for " + fn, correctFormat, recognizer.getFormatByParsing (f, mime).toString ());
-		assertNull ("got wrong format for " + fn, recognizer.getFormatByParsing (XML_FILE, mime));
 		
-		assertNull ("got wrong format for " + fn, recognizer.getFormatFromMime ("something"));
-		assertNull ("got wrong format for " + fn, recognizer.getFormatFromMime (mime));
-		assertNull ("got wrong format for " + fn, recognizer.getFormatFromMime (null));
+		assertEquals ("got wrong format for " + fn, correctFormat, recognizer
+			.getFormatByParsing (f, mime).toString ());
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatByParsing (XML_FILE, mime));
 		
-		assertEquals ("got wrong format for " + fn, correctFormat, recognizer.getFormatFromExtension ("biopax").toString ());
-		assertNull ("got wrong format for " + fn, recognizer.getFormatFromExtension (null));
-		assertNull ("got wrong format for " + fn, recognizer.getFormatFromExtension ("stuff"));
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatFromMime ("something"));
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatFromMime (mime));
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatFromMime (null));
+		
+		assertEquals ("got wrong format for " + fn, correctFormat, recognizer
+			.getFormatFromExtension ("biopax").toString ());
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatFromExtension (null));
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatFromExtension ("stuff"));
 	}
+	
 	
 	/**
 	 * Test CellML guessing.
@@ -155,8 +187,8 @@ public class TestFormatGuessing
 		String fn = f.getAbsolutePath ();
 		String correctFormat = "http://identifiers.org/combine.specifications/sed-ml.level-1.version-1";
 		URI format = Formatizer.guessFormat (f);
-		assertEquals ("got wrong format for " + fn, correctFormat, format.toString ());
-		
+		assertEquals ("got wrong format for " + fn, correctFormat,
+			format.toString ());
 		
 		// test the recognizer
 		SedMlRecognizer recognizer = new SedMlRecognizer ();
@@ -168,21 +200,31 @@ public class TestFormatGuessing
 		}
 		catch (IOException e)
 		{
-			e.printStackTrace();
+			e.printStackTrace ();
 			fail ("wasn't able to get mime...");
 		}
-
-		assertEquals ("got wrong format for " + fn, correctFormat, recognizer.getFormatByParsing (f, mime).toString ());
-		assertNull ("got wrong format for " + fn, recognizer.getFormatByParsing (XML_FILE, mime));
 		
-		assertNull ("got wrong format for " + fn, recognizer.getFormatFromMime ("something"));
-		assertNull ("got wrong format for " + fn, recognizer.getFormatFromMime (mime));
-		assertNull ("got wrong format for " + fn, recognizer.getFormatFromMime (null));
+		assertEquals ("got wrong format for " + fn, correctFormat, recognizer
+			.getFormatByParsing (f, mime).toString ());
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatByParsing (XML_FILE, mime));
 		
-		assertEquals ("got wrong format for " + fn, "http://identifiers.org/combine.specifications/sed-ml", recognizer.getFormatFromExtension ("sedml").toString ());
-		assertNull ("got wrong format for " + fn, recognizer.getFormatFromExtension (null));
-		assertNull ("got wrong format for " + fn, recognizer.getFormatFromExtension ("stuff"));
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatFromMime ("something"));
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatFromMime (mime));
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatFromMime (null));
+		
+		assertEquals ("got wrong format for " + fn,
+			"http://identifiers.org/combine.specifications/sed-ml", recognizer
+				.getFormatFromExtension ("sedml").toString ());
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatFromExtension (null));
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatFromExtension ("stuff"));
 	}
+	
 	
 	/**
 	 * Test CellML guessing.
@@ -194,8 +236,8 @@ public class TestFormatGuessing
 		String fn = f.getAbsolutePath ();
 		String correctFormat = "http://identifiers.org/combine.specifications/cellml";
 		URI format = Formatizer.guessFormat (f);
-		assertEquals ("got wrong format for " + fn, correctFormat, format.toString ());
-		
+		assertEquals ("got wrong format for " + fn, correctFormat,
+			format.toString ());
 		
 		// test the recognizer
 		CellMlRecognizer recognizer = new CellMlRecognizer ();
@@ -206,21 +248,30 @@ public class TestFormatGuessing
 		}
 		catch (IOException e)
 		{
-			e.printStackTrace();
+			e.printStackTrace ();
 			fail ("wasn't able to get mime...");
 		}
-
-		assertEquals ("got wrong format for " + fn, correctFormat, recognizer.getFormatByParsing (f, mime).toString ());
-		assertNull ("got wrong format for " + fn, recognizer.getFormatByParsing (XML_FILE, mime));
 		
-		assertNull ("got wrong format for " + fn, recognizer.getFormatFromMime ("something"));
-		assertNull ("got wrong format for " + fn, recognizer.getFormatFromMime (mime));
-		assertNull ("got wrong format for " + fn, recognizer.getFormatFromMime (null));
+		assertEquals ("got wrong format for " + fn, correctFormat, recognizer
+			.getFormatByParsing (f, mime).toString ());
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatByParsing (XML_FILE, mime));
 		
-		assertEquals ("got wrong format for " + fn, correctFormat, recognizer.getFormatFromExtension ("cellml").toString ());
-		assertNull ("got wrong format for " + fn, recognizer.getFormatFromExtension (null));
-		assertNull ("got wrong format for " + fn, recognizer.getFormatFromExtension ("stuff"));
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatFromMime ("something"));
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatFromMime (mime));
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatFromMime (null));
+		
+		assertEquals ("got wrong format for " + fn, correctFormat, recognizer
+			.getFormatFromExtension ("cellml").toString ());
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatFromExtension (null));
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatFromExtension ("stuff"));
 	}
+	
 	
 	/**
 	 * Test SBGN guessing.
@@ -232,8 +283,8 @@ public class TestFormatGuessing
 		String fn = f.getAbsolutePath ();
 		String correctFormat = "http://identifiers.org/combine.specifications/sbgn";
 		URI format = Formatizer.guessFormat (f);
-		assertEquals ("got wrong format for " + fn, correctFormat, format.toString ());
-		
+		assertEquals ("got wrong format for " + fn, correctFormat,
+			format.toString ());
 		
 		// test the recognizer
 		SbgnRecognizer recognizer = new SbgnRecognizer ();
@@ -244,27 +295,34 @@ public class TestFormatGuessing
 		}
 		catch (IOException e)
 		{
-			e.printStackTrace();
+			e.printStackTrace ();
 			fail ("wasn't able to get mime...");
 		}
-
-		assertEquals ("got wrong format for " + fn, correctFormat, recognizer.getFormatByParsing (f, mime).toString ());
-		assertNull ("got wrong format for " + fn, recognizer.getFormatByParsing (XML_FILE, mime));
 		
-		assertNull ("got wrong format for " + fn, recognizer.getFormatFromMime ("something"));
-		assertNull ("got wrong format for " + fn, recognizer.getFormatFromMime (mime));
-		assertNull ("got wrong format for " + fn, recognizer.getFormatFromMime (null));
+		assertEquals ("got wrong format for " + fn, correctFormat, recognizer
+			.getFormatByParsing (f, mime).toString ());
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatByParsing (XML_FILE, mime));
 		
-		assertEquals ("got wrong format for " + fn, correctFormat, recognizer.getFormatFromExtension ("sbgn").toString ());
-		assertNull ("got wrong format for " + fn, recognizer.getFormatFromExtension (null));
-		assertNull ("got wrong format for " + fn, recognizer.getFormatFromExtension ("stuff"));
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatFromMime ("something"));
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatFromMime (mime));
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatFromMime (null));
 		
+		assertEquals ("got wrong format for " + fn, correctFormat, recognizer
+			.getFormatFromExtension ("sbgn").toString ());
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatFromExtension (null));
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatFromExtension ("stuff"));
 		
 		f = new File ("test/guess-sbgn-ER-binary-no-outcome.sbgn");
 		fn = f.getAbsolutePath ();
 		format = Formatizer.guessFormat (f);
-		assertEquals ("got wrong format for " + fn, correctFormat, format.toString ());
-		
+		assertEquals ("got wrong format for " + fn, correctFormat,
+			format.toString ());
 		
 		// test the recognizer
 		try
@@ -273,27 +331,34 @@ public class TestFormatGuessing
 		}
 		catch (IOException e)
 		{
-			e.printStackTrace();
+			e.printStackTrace ();
 			fail ("wasn't able to get mime...");
 		}
-
-		assertEquals ("got wrong format for " + fn, correctFormat, recognizer.getFormatByParsing (f, mime).toString ());
-		assertNull ("got wrong format for " + fn, recognizer.getFormatByParsing (XML_FILE, mime));
 		
-		assertNull ("got wrong format for " + fn, recognizer.getFormatFromMime ("something"));
-		assertNull ("got wrong format for " + fn, recognizer.getFormatFromMime (mime));
-		assertNull ("got wrong format for " + fn, recognizer.getFormatFromMime (null));
+		assertEquals ("got wrong format for " + fn, correctFormat, recognizer
+			.getFormatByParsing (f, mime).toString ());
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatByParsing (XML_FILE, mime));
 		
-		assertEquals ("got wrong format for " + fn, correctFormat, recognizer.getFormatFromExtension ("sbgn").toString ());
-		assertNull ("got wrong format for " + fn, recognizer.getFormatFromExtension (null));
-		assertNull ("got wrong format for " + fn, recognizer.getFormatFromExtension ("stuff"));
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatFromMime ("something"));
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatFromMime (mime));
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatFromMime (null));
 		
+		assertEquals ("got wrong format for " + fn, correctFormat, recognizer
+			.getFormatFromExtension ("sbgn").toString ());
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatFromExtension (null));
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatFromExtension ("stuff"));
 		
 		f = new File ("test/guess-sbgn-PD-clone-marker.sbgn");
 		fn = f.getAbsolutePath ();
 		format = Formatizer.guessFormat (f);
-		assertEquals ("got wrong format for " + fn, correctFormat, format.toString ());
-		
+		assertEquals ("got wrong format for " + fn, correctFormat,
+			format.toString ());
 		
 		// test the recognizer
 		try
@@ -302,20 +367,28 @@ public class TestFormatGuessing
 		}
 		catch (IOException e)
 		{
-			e.printStackTrace();
+			e.printStackTrace ();
 			fail ("wasn't able to get mime...");
 		}
-
-		assertEquals ("got wrong format for " + fn, correctFormat, recognizer.getFormatByParsing (f, mime).toString ());
-		assertNull ("got wrong format for " + fn, recognizer.getFormatByParsing (XML_FILE, mime));
 		
-		assertNull ("got wrong format for " + fn, recognizer.getFormatFromMime ("something"));
-		assertNull ("got wrong format for " + fn, recognizer.getFormatFromMime (mime));
-		assertNull ("got wrong format for " + fn, recognizer.getFormatFromMime (null));
+		assertEquals ("got wrong format for " + fn, correctFormat, recognizer
+			.getFormatByParsing (f, mime).toString ());
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatByParsing (XML_FILE, mime));
 		
-		assertEquals ("got wrong format for " + fn, correctFormat, recognizer.getFormatFromExtension ("sbgn").toString ());
-		assertNull ("got wrong format for " + fn, recognizer.getFormatFromExtension (null));
-		assertNull ("got wrong format for " + fn, recognizer.getFormatFromExtension ("stuff"));
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatFromMime ("something"));
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatFromMime (mime));
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatFromMime (null));
+		
+		assertEquals ("got wrong format for " + fn, correctFormat, recognizer
+			.getFormatFromExtension ("sbgn").toString ());
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatFromExtension (null));
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatFromExtension ("stuff"));
 	}
 	
 }
