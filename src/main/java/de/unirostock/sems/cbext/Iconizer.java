@@ -35,10 +35,8 @@ public class Iconizer
 	
 	static
 	{
-		
 		// add default icon mapper
-		iconCollectionsList.add (new DefaultIconCollection ());
-		Collections.sort (iconCollectionsList, new IconMapperComparator ());
+		addDefaultCollection ();
 	}
 	
 	/**
@@ -51,16 +49,46 @@ public class Iconizer
 	/**
 	 * Adds a icon mapper to the Iconizer
 	 * 
-	 * @param mapper
+	 * @param collection
 	 */
-	public static void addIconCollection (IconCollection mapper)
+	public static void addIconCollection (IconCollection collection)
 	{
-		if (mapper == null)
+		if (collection == null)
 			throw new IllegalArgumentException (
 				"The mapper is not allowed to be null.");
 		
-		iconCollectionsList.add (mapper);
-		Collections.sort (iconCollectionsList, new IconMapperComparator ());
+		iconCollectionsList.add (collection);
+		Collections.sort (iconCollectionsList, new IconCollectionComparator ());
+	}
+
+	
+	/**
+	 * Add a default icon collection to the list of collections.
+	 */
+	public static void addDefaultCollection ()
+	{
+		iconCollectionsList.add (new DefaultIconCollection ());
+		resortCollections ();
+	}
+	
+	
+	/**
+	 * Remove all collections that we know so far.
+	 */
+	public static void removeCollections ()
+	{
+		iconCollectionsList.clear ();
+	}
+	
+	
+	/**
+	 * Resort known icon collections.
+	 * 
+	 * Must be called if the priorities of collections are modified.
+	 */
+	public static void resortCollections ()
+	{
+		Collections.sort (iconCollectionsList, new IconCollectionComparator ());
 	}
 	
 	
@@ -192,7 +220,7 @@ public class Iconizer
 		return expectedFile;
 	}
 	
-	private static class IconMapperComparator
+	private static class IconCollectionComparator
 		implements Comparator<IconCollection>
 	{
 		
