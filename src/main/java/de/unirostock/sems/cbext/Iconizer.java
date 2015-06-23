@@ -31,14 +31,14 @@ public class Iconizer
 {
 	
 	/** known icon collections */
-	private static List<IconCollection>	iconMapperList	= new ArrayList<IconCollection> ();
+	private static List<IconCollection>	iconCollectionsList	= new ArrayList<IconCollection> ();
 	
 	static
 	{
 		
 		// add default icon mapper
-		iconMapperList.add (new DefaultIconCollection ());
-		Collections.sort (iconMapperList, new IconMapperComparator ());
+		iconCollectionsList.add (new DefaultIconCollection ());
+		Collections.sort (iconCollectionsList, new IconMapperComparator ());
 	}
 	
 	/**
@@ -53,14 +53,14 @@ public class Iconizer
 	 * 
 	 * @param mapper
 	 */
-	public static void addIconMapper (IconCollection mapper)
+	public static void addIconCollection (IconCollection mapper)
 	{
 		if (mapper == null)
 			throw new IllegalArgumentException (
 				"The mapper is not allowed to be null.");
 		
-		iconMapperList.add (mapper);
-		Collections.sort (iconMapperList, new IconMapperComparator ());
+		iconCollectionsList.add (mapper);
+		Collections.sort (iconCollectionsList, new IconMapperComparator ());
 	}
 	
 	
@@ -78,7 +78,7 @@ public class Iconizer
 			return GENERIC_UNKNOWN;
 		
 		String name = null;
-		for (IconCollection mapper : iconMapperList)
+		for (IconCollection mapper : iconCollectionsList)
 		{
 			if ( (name = mapper.formatToIconName (format)) != null)
 				break;
@@ -105,7 +105,7 @@ public class Iconizer
 			return Iconizer.class.getResource ("/icons/" + GENERIC_UNKNOWN);
 		
 		URL url = null;
-		for (IconCollection mapper : iconMapperList)
+		for (IconCollection mapper : iconCollectionsList)
 		{
 			if ( (url = mapper.formatToIconUrl (format)) != null)
 				break;
@@ -130,7 +130,7 @@ public class Iconizer
 			return Iconizer.class.getResourceAsStream ("/icons/" + GENERIC_UNKNOWN);
 		
 		InputStream url = null;
-		for (IconCollection mapper : iconMapperList)
+		for (IconCollection mapper : iconCollectionsList)
 		{
 			if ( (url = mapper.formatToIconStream (format)) != null)
 				break;

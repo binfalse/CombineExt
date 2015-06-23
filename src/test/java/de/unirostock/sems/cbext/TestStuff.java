@@ -141,7 +141,7 @@ public class TestStuff
 		
 		try
 		{
-			Iconizer.addIconMapper (null);
+			Iconizer.addIconCollection (null);
 			fail ("expected to get an exception from a null mapper");
 		}
 		catch (IllegalArgumentException e)

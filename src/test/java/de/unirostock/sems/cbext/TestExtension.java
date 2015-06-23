@@ -218,7 +218,7 @@ public class TestExtension
 		
 		// high priority, executing before default extension mapper (prio = 100)
 		TestIconMapper tim = new TestIconMapper ();
-		Iconizer.addIconMapper (tim);
+		Iconizer.addIconCollection (tim);
 		
 		assertTrue ("test icon mapper has no icon for dummy format",
 			tim.hasIcon (new URI ("http://example.org/spec/dummy")));
