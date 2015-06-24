@@ -3,10 +3,10 @@
 	<groupId>de.unirostock.sems</groupId>
 	<artifactId>CombineExt</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0.1</version>
+	<version>1.0.2</version>
 	<name>CombineExt</name>
 	<description>Extensions for COMBINE projects</description>
-	<url>http://sems.uni-rostock.de/projects/combine/</url>
+	<url>https://sems.uni-rostock.de/trac/combine-ext</url>
 	<developers>
 		<developer>
 			<name>Martin Scharm</name>
