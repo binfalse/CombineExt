@@ -62,7 +62,7 @@
 	<macrodef name="assertDirAvailable">
 			<attribute name="dir" />
 			<sequential>
-				<fail message="Please create dir @{dir} containing the depenencies:${line.separator}${line.separator} &gt;&gt; BFlog (see http://bin.sems.uni-rostock.de/BFLog/)${line.separator}">
+				<fail message="Please create dir @{dir} containing the depenencies:${line.separator}${line.separator} &gt;&gt; BFlog (see http://bin.sems.uni-rostock.de/BFLog/)${line.separator} &gt;&gt; sbgn ${line.separator} &gt;&gt; libSBOLj-core ${line.separator} &gt;&gt; jlibSedml ${line.separator} &gt;&gt; jsbml ${line.separator} &gt;&gt; paxtools-console ${line.separator} &gt;&gt; paxtools-core ${line.separator} &gt;&gt; BiVeS-CellML ${line.separator} &gt;&gt; jdom2 ${line.separator}">
 							<condition>
 									<not>
 											<available file="@{dir}" type="dir" />
