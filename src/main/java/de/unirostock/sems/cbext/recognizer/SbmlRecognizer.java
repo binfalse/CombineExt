@@ -38,6 +38,11 @@ public class SbmlRecognizer
 	extends FormatRecognizer
 {
 	
+	static {
+		// setting priority
+		priority = 100;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 

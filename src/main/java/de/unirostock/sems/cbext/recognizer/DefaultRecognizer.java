@@ -39,6 +39,11 @@ public class DefaultRecognizer
 	extends FormatRecognizer
 {
 	
+	static {
+		// setting priority
+		priority = 100;
+	}
+	
 	/** known formats file. */
 	private static final String	EXT2FORMAT_NAME	= "/ext2format.prop";
 	

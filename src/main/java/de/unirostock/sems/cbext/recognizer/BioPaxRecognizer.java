@@ -39,6 +39,10 @@ import de.unirostock.sems.cbext.FormatRecognizer;
 public class BioPaxRecognizer
 	extends FormatRecognizer
 {
+	static {
+		// setting priority
+		priority = 100;
+	}
 	
 	/*
 	 * (non-Javadoc)

@@ -41,6 +41,11 @@ public class SbgnRecognizer
 	extends FormatRecognizer
 {
 	
+	static {
+		// setting priority
+		priority = 100;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
