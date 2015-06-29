@@ -32,8 +32,30 @@ import java.net.URL;
  * @author martin peters
  * 
  */
-public interface IconCollection
+public abstract class IconCollection
 {
+	
+	/** priority for this icon collection */
+	protected static int 			priority			= 100;
+	
+	/**
+	 * Sets the priority of this icon collection and triggers a resort of all
+	 * collections.
+	 * 
+	 * Setting a negative priority will be ignored.
+	 * Default recognizers have a priority around 100.
+	 * 
+	 * @param priority
+	 */
+	public static void setPriority (int priority) {
+		
+		// no negative priorities!
+		if( priority < 0 )
+			return;
+		
+		IconCollection.priority = priority;
+		Iconizer.resortCollections();
+	}
 	
 	/**
 	 * Defines the priority of this mapper.
@@ -43,7 +65,9 @@ public interface IconCollection
 	 * 
 	 * @return an integer > 0
 	 */
-	public int getPriority ();
+	public int getPriority () {
+		return priority;
+	}
 	
 	
 	/**
@@ -52,7 +76,7 @@ public interface IconCollection
 	 * @param format
 	 * @return true, if we have an icon for that format
 	 */
-	public boolean hasIcon (URI format);
+	public abstract boolean hasIcon (URI format);
 	
 	
 	/**
@@ -62,7 +86,7 @@ public interface IconCollection
 	 * @param format
 	 * @return the URL pointing to the icon for that format
 	 */
-	public URL formatToIconUrl (URI format);
+	public abstract URL formatToIconUrl (URI format);
 	
 	
 	/**
@@ -73,7 +97,7 @@ public interface IconCollection
 	 * @param format
 	 * @return the stream delivering the icon for the format
 	 */
-	public InputStream formatToIconStream (URI format);
+	public abstract InputStream formatToIconStream (URI format);
 	
 	
 	/**
@@ -84,6 +108,6 @@ public interface IconCollection
 	 * @param format
 	 * @return the name of the icon for this format
 	 */
-	public String formatToIconName (URI format);
+	public abstract String formatToIconName (URI format);
 	
 }

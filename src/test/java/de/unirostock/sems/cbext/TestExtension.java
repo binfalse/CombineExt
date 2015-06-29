@@ -384,20 +384,13 @@ public class TestExtension
 	 * The Class TestIconMapper.
 	 */
 	public static class TestIconMapper
-		implements IconCollection
+		extends IconCollection
 	{
 		
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see de.unirostock.sems.cbext.IconMapper#getPriority()
-		 */
-		@Override
-		public int getPriority ()
-		{
-			return 900;
+		static {
+			// sets default priority
+			priority = 900;
 		}
-		
 		
 		/*
 		 * (non-Javadoc)

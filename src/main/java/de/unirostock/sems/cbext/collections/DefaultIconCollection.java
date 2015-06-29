@@ -36,8 +36,13 @@ import de.unirostock.sems.cbext.IconCollection;
  * The Class DefaultIconCollection provides you with a bunch of default icons.
  */
 public class DefaultIconCollection
-	implements IconCollection
+	extends IconCollection
 {
+	
+	static {
+		// sets default priority
+		priority = 100;
+	}
 	
 	/** The Constant FORMAT2ICON_NAME. */
 	private static final String	FORMAT2ICON_NAME	= "/format2icon.prop";
@@ -68,18 +73,6 @@ public class DefaultIconCollection
 				DefaultIconCollection.class.getResourceAsStream (FORMAT2ICON_NAME));
 		}
 		
-	}
-	
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.unirostock.sems.cbext.IconMapper#getPriority()
-	 */
-	@Override
-	public int getPriority ()
-	{
-		return 100;
 	}
 	
 	
