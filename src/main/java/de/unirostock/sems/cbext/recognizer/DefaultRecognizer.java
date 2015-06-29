@@ -67,19 +67,6 @@ public class DefaultRecognizer
 		
 	}
 	
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.unirostock.sems.cbext.FormatRecognizer#getPriority()
-	 */
-	@Override
-	public int getPriority ()
-	{
-		return 100;
-	}
-	
-	
 	/*
 	 * (non-Javadoc)
 	 * 
