@@ -55,6 +55,9 @@ public class TestExtension
 		URI format = Formatizer.guessFormat (f);
 		assertEquals ("Did not get dummy format from TestFormatParser",
 			"http://example.org/spec/dummy", format.toString ());
+		
+		Formatizer.removeRecognizers ();
+		Formatizer.addDefaultRecognizers ();
 	}
 	
 	
@@ -71,6 +74,9 @@ public class TestExtension
 		URI format = Formatizer.getFormatFromExtension ("txt");
 		assertEquals ("Did not get dummy format for txt extension",
 			"http://example.org/spec/text", format.toString ());
+		
+		Formatizer.removeRecognizers ();
+		Formatizer.addDefaultRecognizers ();
 	}
 	
 	
@@ -87,6 +93,9 @@ public class TestExtension
 		URI format = Formatizer.getFormatFromMime ("text/plain");
 		assertEquals ("Did not get dummy format for txt mime type",
 			"http://example.org/spec/text", format.toString ());
+		
+		Formatizer.removeRecognizers ();
+		Formatizer.addDefaultRecognizers ();
 	}
 	
 	
@@ -284,6 +293,9 @@ public class TestExtension
 			Iconizer
 				.formatToIconStream (new URI (
 					"http://identifiers.org/combine.specifications/sbml.level-2.version-4")));
+		
+		Iconizer.removeCollections();
+		Iconizer.addDefaultCollection();
 	}
 	
 	/**
