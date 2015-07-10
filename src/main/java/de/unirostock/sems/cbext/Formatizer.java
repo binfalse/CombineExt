@@ -186,7 +186,7 @@ public class Formatizer
 			if (dot > 0)
 			{
 				String ext = name.substring (dot + 1);
-				System.out.println (ext);
+				//System.out.println (ext);
 				if (ext.equals ("sbml") || ext.equals ("sedml")
 					|| ext.equals ("sed-ml") || ext.equals ("sbgn")
 					|| ext.equals ("omex") || ext.equals ("cellml")
