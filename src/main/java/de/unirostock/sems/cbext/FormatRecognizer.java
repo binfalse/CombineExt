@@ -66,31 +66,6 @@ public abstract class FormatRecognizer
 	/** identifiers.org base uri. */
 	public static final String		IDENTIFIERS_BASE	= "http://identifiers.org/combine.specifications/";
 	
-	/** priority for this format recognizer */
-	protected static int 			priority			= 100;
-	
-	/**
-	 * Sets the priority of this format recognizer and triggers a resort of all
-	 * format recognizers.
-	 * 
-	 * The higher the priority, the earlier this recognizer gets called.
-	 * The first recognizer, which is able to identify a file, determines it's
-	 * format.
-	 * Setting a negative priority will be ignored.
-	 * Default recognizers have a priority around 100.
-	 * 
-	 * @param priority
-	 */
-	public static void setPriority (int priority) {
-		
-		// no negative priorities!
-		if( priority < 0 )
-			return;
-		
-		FormatRecognizer.priority = priority;
-		Formatizer.resortRecognizers();
-	}
-	
 	/**
 	 * Returns the priority of this format recognizer.
 	 * 
@@ -102,9 +77,7 @@ public abstract class FormatRecognizer
 	 * 
 	 * @return an integer > 0
 	 */
-	public int getPriority () {
-		return priority;
-	}
+	public abstract int getPriority ();
 	
 	/**
 	 * Parses the given file and tries to determine the format, such as purl.org

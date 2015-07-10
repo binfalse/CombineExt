@@ -29,6 +29,7 @@ import java.util.Set;
 
 import de.binfalse.bflog.LOGGER;
 import de.unirostock.sems.cbext.IconCollection;
+import de.unirostock.sems.cbext.Iconizer;
 
 
 
@@ -39,9 +40,38 @@ public class DefaultIconCollection
 	extends IconCollection
 {
 	
-	static {
-		// sets default priority
-		priority = 100;
+	/** priority for this icon collection */
+	protected static int 			priority			= 100;
+	
+	/**
+	 * Sets the priority of this icon collection and triggers a resort of all
+	 * icon collection.
+	 * 
+	 * The higher the priority, the earlier this collection gets asked.
+	 * The first collection, which is able to provide an icon, determines it's
+	 * icon.
+	 * Setting a negative priority will be ignored.
+	 * Default collections have a priority of 100.
+	 * 
+	 * @param newPriority
+	 */
+	public static void setPriority (int newPriority) {
+		
+		// no negative priorities!
+		if( priority < 0 )
+			return;
+		
+		priority = newPriority;
+		Iconizer.resortCollections ();
+	}
+
+	/* (non-Javadoc)
+	 * @see de.unirostock.sems.cbext.FormatRecognizer#getPriority()
+	 */
+	@Override
+	public int getPriority ()
+	{
+		return priority;
 	}
 	
 	/** The Constant FORMAT2ICON_NAME. */

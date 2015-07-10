@@ -35,43 +35,19 @@ import java.net.URL;
 public abstract class IconCollection
 {
 	
-	/** priority for this icon collection */
-	protected static int 			priority			= 100;
-	
 	/**
-	 * Sets the priority of this icon collection and triggers a resort of all
-	 * collections.
+	 * Defines the priority of this collection.
+	 * The higher the priority, the sooner this collection gets asked. <br>
 	 * 
-	 * Setting a negative priority will be ignored.
-	 * Default recognizers have a priority around 100.
-	 * 
-	 * @param priority
-	 */
-	public static void setPriority (int priority) {
-		
-		// no negative priorities!
-		if( priority < 0 )
-			return;
-		
-		IconCollection.priority = priority;
-		Iconizer.resortCollections();
-	}
-	
-	/**
-	 * Defines the priority of this mapper.
-	 * The higher the priority, the sooner this mapper gets called. <br>
-	 * 
-	 * Should not be negative. Default mapper have a priority around 100.
+	 * Should not be negative. Default collections have a priority around 100.
 	 * 
 	 * @return an integer > 0
 	 */
-	public int getPriority () {
-		return priority;
-	}
+	public abstract int getPriority ();
 	
 	
 	/**
-	 * Returns true, if the given format is available in this mapper.
+	 * Returns true, if the given format is available in this collection.
 	 * 
 	 * @param format
 	 * @return true, if we have an icon for that format
