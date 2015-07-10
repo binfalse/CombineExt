@@ -33,6 +33,10 @@ import java.net.URL;
 
 import org.junit.Test;
 
+import de.unirostock.sems.cbext.recognizer.SbmlRecognizer;
+import de.unirostock.sems.cbext.recognizer.SbolRecognizer;
+import de.unirostock.sems.cbext.recognizer.SedMlRecognizer;
+
 
 
 /**
@@ -232,6 +236,16 @@ public class TestExtension
 		
 		Formatizer.removeRecognizers ();
 		Formatizer.addDefaultRecognizers ();
+		
+		SbmlRecognizer.setPriority (123);
+		assertEquals ("wrong priority for SbmlRecognizer", 123, new SbmlRecognizer ().getPriority ());
+		assertEquals ("wrong priority for SbolRecognizer", 100, new SbolRecognizer ().getPriority ());
+		assertEquals ("wrong priority for SbgnRecognizer", 100, new SbolRecognizer ().getPriority ());
+		assertEquals ("wrong priority for SedmlRecognizer", 100, new SedMlRecognizer ().getPriority ());
+		SbmlRecognizer.setPriority (100);
+		assertEquals ("wrong priority for SbmlRecognizer", 100, new SbmlRecognizer ().getPriority ());
+		assertEquals ("wrong priority for SbolRecognizer", 100, new SbolRecognizer ().getPriority ());
+		
 	}
 	
 	
