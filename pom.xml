@@ -3,7 +3,7 @@
 	<groupId>de.unirostock.sems</groupId>
 	<artifactId>CombineExt</artifactId>
 	<packaging>jar</packaging>
-	<version>1.2.1</version>
+	<version>1.2.2</version>
 	<name>CombineExt</name>
 	<description>Extensions for COMBINE projects</description>
 	<url>https://sems.uni-rostock.de/trac/combine-ext</url>
@@ -36,11 +36,6 @@
 		<url>https://sems.uni-rostock.de</url>
 	</organization>
 	<dependencies>
-		<dependency>
-			<groupId>org.biopax.paxtools</groupId>
-			<artifactId>paxtools-console</artifactId>
-			<version>4.3.0-SNAPSHOT</version>
-		</dependency>
 		<dependency>
 			<groupId>org.biopax.paxtools</groupId>
 			<artifactId>paxtools-core</artifactId>
