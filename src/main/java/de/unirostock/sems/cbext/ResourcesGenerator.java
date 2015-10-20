@@ -28,7 +28,7 @@ public class ResourcesGenerator
 {
 	
 	/**
-	 * @param args
+	 * @param args the arguments
 	 */
 	public static void main (String[] args)
 	{

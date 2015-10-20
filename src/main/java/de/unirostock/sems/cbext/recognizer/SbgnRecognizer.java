@@ -55,7 +55,7 @@ public class SbgnRecognizer
 	 * Setting a negative priority will be ignored.
 	 * Default recognizers have a priority of 100.
 	 * 
-	 * @param newPriority
+	 * @param newPriority the new priority of this recogniser
 	 */
 	public static void setPriority (int newPriority) {
 		

@@ -53,7 +53,7 @@ public class DefaultIconCollection
 	 * Setting a negative priority will be ignored.
 	 * Default collections have a priority of 100.
 	 * 
-	 * @param newPriority
+	 * @param newPriority the new priority of this collection
 	 */
 	public static void setPriority (int newPriority) {
 		

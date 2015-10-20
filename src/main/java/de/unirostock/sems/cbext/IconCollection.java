@@ -41,7 +41,7 @@ public abstract class IconCollection
 	 * 
 	 * Should not be negative. Default collections have a priority around 100.
 	 * 
-	 * @return an integer > 0
+	 * @return an integer &gt; 0
 	 */
 	public abstract int getPriority ();
 	
@@ -49,7 +49,7 @@ public abstract class IconCollection
 	/**
 	 * Returns true, if the given format is available in this collection.
 	 * 
-	 * @param format
+	 * @param format the format URI
 	 * @return true, if we have an icon for that format
 	 */
 	public abstract boolean hasIcon (URI format);
@@ -59,7 +59,7 @@ public abstract class IconCollection
 	 * Get a URL pointing to an icon in the archive.
 	 * If no icon is available <code>null</code> is supposed to be returned.
 	 * 
-	 * @param format
+	 * @param format the format URI
 	 * @return the URL pointing to the icon for that format
 	 */
 	public abstract URL formatToIconUrl (URI format);
@@ -70,7 +70,7 @@ public abstract class IconCollection
 	 * stored in our jar file.
 	 * If no icon is available <code>null</code> is supposed to be returned.
 	 * 
-	 * @param format
+	 * @param format the format URI
 	 * @return the stream delivering the icon for the format
 	 */
 	public abstract InputStream formatToIconStream (URI format);
@@ -81,7 +81,7 @@ public abstract class IconCollection
 	 * archive. Especially useful for people who are going to extract the icons.
 	 * If no icon is available <code>null</code> is supposed to be returned.
 	 * 
-	 * @param format
+	 * @param format the format URI
 	 * @return the name of the icon for this format
 	 */
 	public abstract String formatToIconName (URI format);

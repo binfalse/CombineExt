@@ -29,20 +29,20 @@ import de.binfalse.bflog.LOGGER;
 
 
 /**
- * Instances of the class FormatRecognizer are able to recognize the format of
+ * Instances of the class FormatRecognizer are able to recognise the format of
  * files.
  * 
  * They determine the formats by either
  * <ul>
- * <li>parsing the files: {@link FormatRecognizer.checkFormat (java.io.File,
+ * <li>parsing the files: {@link #getFormatByParsing (java.io.File,
  * java.lang.String)}</li>
- * <li>understanding a mime-type: {@link FormatRecognizer.getFormatFromMime
+ * <li>understanding a MIME-type: {@link #getFormatFromMime
  * (java.lang.String)}</li>
- * <li>recognizing a file extension:
- * {@link FormatRecognizer.getFormatFromExtension (java.lang.String)}</li>
+ * <li>recognising a file extension:
+ * {@link #getFormatFromExtension (java.lang.String)}</li>
  * </ul>
  * 
- * If one of the methods fail to determin the format they must return
+ * If one of the methods fail to determine the format they must return
  * <code>null</code>.
  * 
  * The priority determines the order we use to ask different recognizers.
@@ -51,7 +51,7 @@ import de.binfalse.bflog.LOGGER;
  * be used.
  * If you ever need to change the priority of different recognizers you should
  * resort the recognizers
- * in the Formatizer class by calling {@link Formatizer.resortRecognizers ()}.
+ * in the Formatizer class by calling {@link Formatizer#resortRecognizers ()}.
  * 
  * 
  * @author Martin Scharm
@@ -75,7 +75,7 @@ public abstract class FormatRecognizer
 	 * Priority should not be negative. Default recognizers have a priority around
 	 * 100.
 	 * 
-	 * @return an integer > 0
+	 * @return an integer &gt; 0
 	 */
 	public abstract int getPriority ();
 	

@@ -48,13 +48,13 @@ import de.unirostock.sems.cbext.recognizer.SedMlRecognizer;
  * which are able to recognize files and provide format URIs.
  * By default we are able to recognize SED-ML, BioPax, CellML, SBML, and SBOL.
  * You can extend the default list by passing further FormatRecognizers to
- * {@link addFormatRecognizer (de.unirostock.sems.cbext.FormatRecognizer)}.
+ * {@link #addFormatRecognizer (de.unirostock.sems.cbext.FormatRecognizer)}.
  * 
  * To retrieve the format of a certain file you might
  * <ul>
- * <li>pass the file to {@link guessFormat (java.io.File)}</li>
- * <li>pass its mime type to {@link getFormatFromMime (java.lang.String)}</li>
- * <li>pass its extension to {@link getFormatFromExtension (java.lang.String)}</li>
+ * <li>pass the file to {@link #guessFormat (java.io.File)}</li>
+ * <li>pass its mime type to {@link #getFormatFromMime (java.lang.String)}</li>
+ * <li>pass its extension to {@link #getFormatFromExtension (java.lang.String)}</li>
  * </ul>
  * The result will be a link to, e.g., purl.org or identifiers.org.
  * 

@@ -66,7 +66,7 @@ public class Iconizer
 	/**
 	 * Adds a icon mapper to the Iconizer
 	 * 
-	 * @param collection
+	 * @param collection the icon collection to be added
 	 */
 	public static void addIconCollection (IconCollection collection)
 	{
@@ -237,6 +237,10 @@ public class Iconizer
 		return expectedFile;
 	}
 	
+	/**
+	 * @author Martin Scharm
+	 *
+	 */
 	private static class IconCollectionComparator
 		implements Comparator<IconCollection>
 	{

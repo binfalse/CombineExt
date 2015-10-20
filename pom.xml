@@ -3,7 +3,7 @@
 	<groupId>de.unirostock.sems</groupId>
 	<artifactId>CombineExt</artifactId>
 	<packaging>jar</packaging>
-	<version>1.2.2</version>
+	<version>1.2.3</version>
 	<name>CombineExt</name>
 	<description>Extensions for COMBINE projects</description>
 	<url>https://sems.uni-rostock.de/trac/combine-ext</url>
