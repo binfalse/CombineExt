@@ -244,6 +244,55 @@ public class TestFormatGuessing
 	
 	
 	/**
+	 * Test SEDML L1V2 guessing.
+	 */
+	@Test
+	public void testGuessSEDMLL1V2 ()
+	{
+		File f = new File ("test/v3-example1-repeated-steady-scan-oscli.xml");
+		String fn = f.getAbsolutePath ();
+		String correctFormat = "http://identifiers.org/combine.specifications/sed-ml.level-1.version-2";
+		URI format = Formatizer.guessFormat (f);
+		assertEquals ("got wrong format for " + fn, correctFormat,
+			format.toString ());
+		
+		// test the recognizer
+		SedMlRecognizer recognizer = new SedMlRecognizer ();
+		String mime = null;
+		try
+		{
+			mime = Files.probeContentType (f.toPath ());
+			System.out.println (mime);
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace ();
+			fail ("wasn't able to get mime...");
+		}
+		
+		assertEquals ("got wrong format for " + fn, correctFormat, recognizer
+			.getFormatByParsing (f, mime).toString ());
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatByParsing (XML_FILE, mime));
+		
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatFromMime ("something"));
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatFromMime (mime));
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatFromMime (null));
+		
+		assertEquals ("got wrong format for " + fn,
+			"http://identifiers.org/combine.specifications/sed-ml", recognizer
+				.getFormatFromExtension ("sedml").toString ());
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatFromExtension (null));
+		assertNull ("got wrong format for " + fn,
+			recognizer.getFormatFromExtension ("stuff"));
+	}
+	
+	
+	/**
 	 * Test CellML guessing.
 	 */
 	@Test

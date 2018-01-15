@@ -4,7 +4,7 @@
 	<groupId>de.uni-rostock.sbi</groupId>
 	<artifactId>CombineExt</artifactId>
 	<packaging>jar</packaging>
-	<version>1.2.7</version>
+	<version>1.2.8</version>
 	<name>CombineExt</name>
 	<description>Extensions for COMBINE projects</description>
 	<url>https://sems.uni-rostock.de/trac/combine-ext</url>
@@ -65,7 +65,7 @@
 		<dependency>
 			<groupId>org.jlibsedml</groupId>
 			<artifactId>jlibsedml</artifactId>
-			<version>2.0.0</version>
+			<version>2.2.3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.sbml.jsbml</groupId>

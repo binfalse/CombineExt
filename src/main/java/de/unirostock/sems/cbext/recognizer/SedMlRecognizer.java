@@ -108,7 +108,7 @@ public class SedMlRecognizer
 			return buildUri (IDENTIFIERS_BASE, "sed-ml.level-" + v.getLevel ()
 				+ ".version-" + v.getVersion ());
 		}
-		catch (IOException | XMLException | org.jdom.IllegalAddException e)
+		catch (IOException | XMLException | IllegalArgumentException | NullPointerException e)
 		{
 			LOGGER.info (e, "file ", file, " seems to be no sedml file..");
 		}
